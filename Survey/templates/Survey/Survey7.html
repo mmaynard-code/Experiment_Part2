@@ -1,0 +1,51 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Sharing-decision task
+{% endblock %}
+
+{% block content %}
+<div style="text-align: center;">Section 1</div>
+<div class="progress">
+    <div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+</div><br>
+
+    <div>
+        <p class="alert alert-info">
+            In the following task you are matched with participant one of the other participants
+            who is the same as in the previous task. The amount you earn in this task will count 
+            in your payment that you are going to receive at the end in cash.
+        </p>
+        <p style="margin-top: 10pt;">
+            You have received <strong>20</strong> Monetary Units (MUs). 
+            You can give some of it to this other participant  
+            (please round up to one decimal, for instance 0.6). 
+            The other participant has also received <strong>20</strong> MU and could also divide this amount 
+            according to his/her will between him/her and you. 
+        </P>
+        <li>
+            If your reward, which is the sum of what you keep and what you get from the other participant 
+            is <strong>more</strong> than the reward of the other participant, 
+            then you won and you will receive the amount that you KEPT yourself. 
+        </li>
+        <li>
+            If your reward is <strong>lower</strong>, then you receive the amount that the other participant gave to you. 
+        </li>
+        <li>
+            If the rewards are <strong>equal</strong>, we will make a lottery between these two options 
+            in which there is 50% chance that you win and receive the money that you kept. 
+        </li>
+        <p style="margin-top: 10pt;"><strog>
+            Now please make a decision how much of your 20 Monetary Units (MUs) 
+            would like to give to the other participant.</strog>
+        </p>
+
+        {% formfield player.survey_7 %}
+
+    </div>
+
+
+    {% next_button %}
+
+{% endblock %}
