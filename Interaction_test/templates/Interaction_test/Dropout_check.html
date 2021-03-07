@@ -1,0 +1,28 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Click "Next" to continue 
+{% endblock %}
+
+{% block content %}
+
+
+    <p style="padding-top: 10pt;">
+        In the previous page, you didn't submit the answer before the time ran out.
+        Click "Next" below before timeout in order to continue your assignment. 
+        If you fail to confirm active status for more than <strong>3 times</strong>, you will drop out from this assignment automatically.
+    </p>
+
+    {% if num_d == 3 %}
+        <p><strong>
+            The number of your tiomout history has been 3. Please click "Next" botton on this page before the timer finishes,
+            otherwise you are not able to play the rest part of the experiment and will be marked as drop-out player. 
+            Participant who is marked drop-out will only be paid for the show up rewards.</strong>
+        </p>
+    {% endif %}
+
+
+    {% next_button %}
+
+{% endblock %}
