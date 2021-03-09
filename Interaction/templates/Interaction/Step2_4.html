@@ -27,7 +27,7 @@
         }
     </style>
 
-    <p><strong>Now you can communicate with this person(s) again.</strong></p> 
+    <p><strong>You can now communicate with them again.</strong></p>
 
     <table>
         <tr>
@@ -55,10 +55,10 @@
                     "My opinion on this issue is {{ my_answer }}. " + 
                     {% formfield player.message_step2_2_2 label="" %}
                 </p>
-            </td class = "td">
+            </td>
             {% endif %}
             {% if num_p == 3 %}
-            <td>
+            <td class = "td">
                 <h3>Person 3: {{ p3_name }} </h3><br>
                 <p>The opinion of this person on the selected issue is <strong style="color: green;">{{ p3_answer }}</strong> </p>
                 <p>

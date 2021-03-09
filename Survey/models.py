@@ -98,7 +98,7 @@ class Player(BasePlayer):
 
     survey_2_1 = models.StringField(
         choices=["Problems around integration are mostly the fault of immigrants.", 
-        "Problems around integration are mostly the fault of the society."],
+        "Problems around integration are mostly the fault of society."],
         widget=widgets.RadioSelect
     )
 
@@ -109,8 +109,8 @@ class Player(BasePlayer):
     )
 
     survey_2_3 = models.StringField(
-        choices=["The expression of your religion, such as wearing a headcover or burkah, is not appropriate at the public domain, just at the private domain.", 
-        "Everyone should be free to express his own religion also in his clothing at the public domain."],
+        choices=["The expression of your religion, such as wearing a headcover or burkah, is not appropriate in the public domain, just in the private domain.",
+        "Everyone should be free to express their own religion through their clothing in the public domain."],
         widget=widgets.RadioSelect
     )
 
@@ -122,7 +122,7 @@ class Player(BasePlayer):
 
     survey_2_5 = models.StringField(
         choices=["It is perfectly appropriate to use books, notes, and online help for an exam that is taking place online.", 
-        "One should not use any help from books, notes, or from the Internet for making an exam that is taking place online."],
+        "One should not use any help from books, notes, or from the Internet for an exam that is taking place online."],
         widget=widgets.RadioSelect
     )
 
@@ -146,8 +146,8 @@ class Player(BasePlayer):
     )
 
     survey_6 = models.StringField(
-        choices=["I am a very kind person. I will do my best to help just you in this experiment and nobody else.",
-        "I will do my best in this experiment as much as possible to get the most for me, i do not care what you are going to receive."],
+        choices=["I am kind and will help you in this experiment as much as I can",
+        "I will do my best in this experiment to get the most for me, I do not care what you are going to receive."],
         widget=widgets.RadioSelect
     )
 

@@ -13,32 +13,35 @@
 
     <div>
         <p class="alert alert-info">
-            In the following task you are matched with participant one of the other participants
-            who is the same as in the previous task. The amount you earn in this task will count 
-            in your payment that you are going to receive at the end in cash.
+            In the following task you are matched with one of the other participants from the previous task.
+            The amount you earn in this task will count towards your payment that you are going to receive at the end of the experiment.
         </p>
         <p style="margin-top: 10pt;">
             You have received <strong>20</strong> Monetary Units (MUs). 
-            You can give some of it to this other participant  
+            You can give some of it to this other participant
             (please round up to one decimal, for instance 0.6). 
-            The other participant has also received <strong>20</strong> MU and could also divide this amount 
+            The other participant has also received <strong>20</strong> MU and can also divide this amount
             according to his/her will between him/her and you. 
         </P>
+        <p>
+            Your reward in this task depends on how much you give the other participant, and how much they give you:
+            Your share is calculated as the sum of what you kept, and what you received from the other participant.
+        </p>
         <li>
-            If your reward, which is the sum of what you keep and what you get from the other participant 
-            is <strong>more</strong> than the reward of the other participant, 
-            then you won and you will receive the amount that you KEPT yourself. 
+            If your share of what you kept, and what you received from the other participant,
+            is <strong>more</strong> than their share of the sum of what you gave, and what they kept
+            then you will have won this task and you will receive the amount that you choose to keep yourself as payment at the end of the experiment.
         </li>
         <li>
-            If your reward is <strong>lower</strong>, then you receive the amount that the other participant gave to you. 
+            If your share is <strong>lower</strong>, then you receive the amount that the other participant chose to give to you.
         </li>
         <li>
-            If the rewards are <strong>equal</strong>, we will make a lottery between these two options 
-            in which there is 50% chance that you win and receive the money that you kept. 
+            If your share and the other participants shares are <strong>equal</strong>, there will be a lottery between the two of you
+            in which there is 50% chance that you win and receive the money that you kept, and a 50% chance that you lose and receive nothing.
         </li>
-        <p style="margin-top: 10pt;"><strog>
+        <p style="margin-top: 10pt;"><strong>
             Now please make a decision how much of your 20 Monetary Units (MUs) 
-            would like to give to the other participant.</strog>
+            would like to give to the other participant.</strong>
         </p>
 
         {% formfield player.survey_7 %}

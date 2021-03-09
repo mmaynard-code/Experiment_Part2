@@ -96,15 +96,15 @@ class Survey2(Page):
             return True
         else:
             choice1 = ["A. Problems around integration are mostly the fault of immigrants.", 
-            "B. Problems around integration are mostly the fault of the society."]
+            "B. Problems around integration are mostly the fault of society."]
             choice2 = ["A. We have to limit the influence of Islam in the world.", 
             "B. We have to allow the free spreading of the influence of Islam in the world."]
-            choice3 = ["A. The expression of your religion, such as wearing a headcover or burkah, is not appropriate at the public domain, just at the private domain.", 
-            "B. Everyone should be free to express his own religion also in his clothing at the public domain."]
+            choice3 = ["A. The expression of your religion, such as wearing a headcover or burkah, is not appropriate in the public domain, just in the private domain.",
+            "B. Everyone should be free to express their own religion through their clothing in the public domain."]
             choice4 = ["A. The regulations of the government of my country concerning the spread of COVID-19 were not strict enough.", 
             "B. The regulations of the government of my country concerning the spread of COVID-19 were too strict."]
             choice5 = ["A. It is perfectly appropriate to use books, notes, and online help for an exam that is taking place online.", 
-            "B. One should not use any help from books, notes, or from the Internet for making an exam that is taking place online."]
+            "B. One should not use any help from books, notes, or from the Internet for an exam that is taking place online."]
             self.player.survey_2_1 = random.choice(choice1)
             self.player.survey_2_2 = random.choice(choice2)
             self.player.survey_2_3 = random.choice(choice3)
@@ -121,15 +121,15 @@ class Survey2(Page):
             prenum_timeout = self.player.participant.vars['num_timeout']
             self.player.participant.vars['num_timeout'] = prenum_timeout + 1
             choice1 = ["A. Problems around integration are mostly the fault of immigrants.", 
-            "B. Problems around integration are mostly the fault of the society."]
+            "B. Problems around integration are mostly the fault of society."]
             choice2 = ["A. We have to limit the influence of Islam in the world.", 
             "B. We have to allow the free spreading of the influence of Islam in the world."]
-            choice3 = ["A. The expression of your religion, such as wearing a headcover or burkah, is not appropriate at the public domain, just at the private domain.", 
-            "B. Everyone should be free to express his own religion also in his clothing at the public domain."]
+            choice3 = ["A. The expression of your religion, such as wearing a headcover or burkah, is not appropriate in the public domain, just in the private domain.",
+            "B. Everyone should be free to express their own religion through their clothing in the public domain."]
             choice4 = ["A. The regulations of the government of my country concerning the spread of COVID-19 were not strict enough.", 
             "B. The regulations of the government of my country concerning the spread of COVID-19 were too strict."]
             choice5 = ["A. It is perfectly appropriate to use books, notes, and online help for an exam that is taking place online.", 
-            "B. One should not use any help from books, notes, or from the Internet for making an exam that is taking place online."]
+            "B. One should not use any help from books, notes, or from the Internet for an exam that is taking place online."]
             self.player.survey_2_1 = random.choice(choice1)
             self.player.survey_2_2 = random.choice(choice2)
             self.player.survey_2_3 = random.choice(choice3)
@@ -202,7 +202,7 @@ class Survey6(Page):
         if self.player.participant.vars['is_dropout'] < 4:
             return True
         else:
-            self.player.survey_6 = "B. I will do my best in this experiment as much as possible to get the most for me, i do not care what you are going to receive."
+            self.player.survey_6 = "B. I will do my best in this experiment to get the most for me, I do not care what you are going to receive."
 
     form_model = 'player'
     form_fields = ['survey_6']
@@ -213,7 +213,7 @@ class Survey6(Page):
             self.player.participant.vars['check_dropout'] = True
             prenum_timeout = self.player.participant.vars['num_timeout']
             self.player.participant.vars['num_timeout'] = prenum_timeout + 1
-            self.player.survey_6 = "B. I will do my best in this experiment as much as possible to get the most for me, i do not care what you are going to receive."
+            self.player.survey_6 = "B. I will do my best in this experiment to get the most for me, I do not care what you are going to receive."
 
 class Survey7(Page):
     def is_displayed(self):
@@ -235,7 +235,7 @@ class Survey7(Page):
 
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = 'save_answers'
-    body_text = "Another participant makes his or her decisions slower than you did. You have to wait because he or she has not finished yet the previous task. You can only go further if he or she finished the previous task. You are not allowed to do anything else just wait until he or she is finished. "
+    body_text = "Another participant is making their decisions slower than you. You have to wait because they have not yet finished the previous task. You can only proceed after they finish the previous task. You are not allowed to do anything else; just wait until they are finished."
 
 class Welcome(Page):
     def is_displayed(self):

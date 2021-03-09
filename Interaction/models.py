@@ -38,7 +38,7 @@ class Constants(BaseConstants):
     num_issues = [3,1,4,2,5] 
     issues_list = ["The government of your country should subsidize public transport in [0…100] percent.",
     "The warning signs on cigarette boxes should cover [0…100] percent of the box total surface.",
-     "The government of your country has to divide an available budget between two options: building new highways or new high-speed railway tracks. [0…100] percent of these resources should be used to build new high-speed railway tracks.",
+    "The government of your country has to divide an available budget between two options: building new highways or new high-speed railway tracks. [0…100] percent of these resources should be used to build new high-speed railway tracks.",
     "[0…100] percent of immigrants who come to your country now for economic reasons should receive a residence permit.",
     "The military of your country has to divide its total budget between activities within the national borders, such as national defense and training, and peace-keeping (non-combative) missions outside the country. Foreign missions should receive [0…100] percent of the total budget."] 
 
@@ -302,7 +302,7 @@ class Player(BasePlayer):
    
     def likability():
         return models.IntegerField(
-            label="Please rate to what extent you consider this person likable from -50 (not likable at all) to +50 (very much likable). A zero rating could be interpreted as a neutral position.",
+            label="Please rate how likeable you find this person from -50 (not likable at all) to +50 (very much likable). A zero rating could be interpreted as a neutral position.",
             min=-50, 
             max=50,         
             widget=widgets.Slider
@@ -342,7 +342,7 @@ class Player(BasePlayer):
     def message():
         return models.StringField(
             choices=["You are completely wrong with your opinion. Your opinion is absolutely not realistic. Rethink your position and change your mind so that is closer to mine.",
-                "I appreciate if you move your opinion closer to mine", "I would be happy, if you could move your opinion closer to mine.","Why don’t you move your opinion closer to mine?"],
+                "I would appreciate it if you could move your opinion closer to mine", "I would be happy if you could move your opinion closer to mine.","Why don’t you move your opinion closer to mine?"],
             widget=widgets.RadioSelect
         )
     

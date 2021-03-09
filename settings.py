@@ -5,7 +5,7 @@ SESSION_CONFIGS = [
         name='experiment_code',
         display_name="Part2_entire_16p",
         num_demo_participants=16,
-        app_sequence=['Survey','Interaction'] 
+        app_sequence=['part1','Survey','Interaction']
     ),
     dict(
         name='Interaction_test',

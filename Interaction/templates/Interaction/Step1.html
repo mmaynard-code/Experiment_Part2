@@ -44,11 +44,11 @@
             <td class="td">
                 <h3>Person 1: {{ p1_name }} </h3><br>            
                 <p>
-                    <strong>Some answers provided by this person for the previous questions are displayed above:</strong><br>
+                    <strong>Some of the answers this person provided for the previous questions are displayed here:</strong><br>
                 </p>
                 <p>
                     {% if l_p1_diff_answers_s2 != 0 %}
-                        <li>Statements that fit the opinion of this person are:</li><br>
+                        <li>This person chose the following statements to fit their opinions:</li><br>
                         {% for item in p1_diff_answers_s2 %}
                             <ol style="color: green;">{{ item }}</ol>
                         {% endfor %}
@@ -66,11 +66,11 @@
             <td class="td">
                 <h3>Person 2: {{ p2_name }} </h3><br>
                 <p>
-                    <strong>Some answers provided by this person for the previous questions are displayed above:</strong><br>
+                    <strong>Some of the answers this person provided for the previous questions are displayed here:</strong><br>
                 </p>
                 <p>
                     {% if l_p2_diff_answers_s2 != 0 %}
-                        <li>Statements that fit the opinion of this person are:</li><br>
+                        <li>This person chose the following statements to fit their opinions:</li><br>
                         {% for item in p2_diff_answers_s2 %}
                             <ol style="color: green;">{{ item }}</ol>
                         {% endfor %}
@@ -89,11 +89,11 @@
             <td class="td">
                 <h3>Person 3: {{ p3_name }} </h3><br>
                 <p>
-                    <strong>Some answers provided by this person for the previous questions are displayed above:</strong><br>
+                    <strong>Some of the answers this person provided for the previous questions are displayed here:</strong><br>
                 </p>
                 <p>
                     {% if l_p3_diff_answers_s2 != 0 %}
-                        <li>Statements that fit the opinion of this person are:</li><br>
+                        <li>This person chose the following statements to fit their opinions:</li><br>
                         {% for item in p3_diff_answers_s2 %}
                             <ol style="color: green;">{{ item }}</ol>
                         {% endfor %}
@@ -112,8 +112,8 @@
         <tr>
             <td class="td">
                 <div class="alert alert-success">
-                    <p><strong>We would like to know to what extent you consider this person likable.</strong></p>
-                    <p>Please rate to what extent you consider this person likable from -50 (not likable at all) 
+                    <p><strong>How likeable do you consider this person?</strong></p>
+                    <p>Please rate how likeable you find this person from -50 (not likable at all)
                         to +50 (very much likable). A zero rating could be interpreted as a neutral position.</p>
                     <div class="input-group" data-slider="">
                         <input type="range" name="likability_step1_1" min="-50" max="50" step="1" id="volume">    
@@ -126,8 +126,8 @@
             {% if num_p != 1 %}
             <td class="td">
                 <div class="alert alert-success">
-                    <p><strong>We would like to know to what extent you consider this person likable.</strong></p>
-                    <p>Please rate to what extent you consider this person likable from -50 (not likable at all) 
+                    <p><strong>How likeable do you consider this person?</strong></p>
+                    <p>Please rate how likeable you find this person from -50 (not likable at all)
                         to +50 (very much likable). A zero rating could be interpreted as a neutral position.</p>
                     <div class="input-group" data-slider="">
                         <input type="range" name="likability_step1_2" min="-50" max="50" step="1" id="volume">    
@@ -141,8 +141,8 @@
             {% if num_p == 3 %}
             <td class="td">
                 <div class="alert alert-success">
-                    <p><strong>We would like to know to what extent you consider this person likable.</strong></p>
-                    <p>Please rate to what extent you consider this person likable from -50 (not likable at all) 
+                    <p><strong>How likeable do you consider this person?</strong></p>
+                    <p>Please rate how likeable you find this person from -50 (not likable at all)
                         to +50 (very much likable). A zero rating could be interpreted as a neutral position.</p>
                     <div class="input-group" data-slider="">
                         <input type="range" name="likability_step1_3" min="-50" max="50" step="1" id="volume">    
