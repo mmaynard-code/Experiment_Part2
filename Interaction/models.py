@@ -304,8 +304,7 @@ class Player(BasePlayer):
         return models.IntegerField(
             label="Please rate to what extent you consider this person likable from -50 (not likable at all) to +50 (very much likable). A zero rating could be interpreted as a neutral position.",
             min=-50, 
-            max=50,         
-            widget=widgets.Slider
+            max=50
             )
     
     likability_step1_1 = likability()
@@ -329,8 +328,7 @@ class Player(BasePlayer):
     def re_issue_field():
         return models.IntegerField(
             min=0,
-            max=100,
-            widget=widgets.Slider
+            max=100
         )
     
     re_issue_step2_1 = re_issue_field()
