@@ -53,8 +53,7 @@ class Player(BasePlayer):
             label="1. Please give your opinion on this issue", 
             min=0, 
             max=100, 
-            initial=0,
-            widget=widgets.Slider,
+            initial=0
             )
  
     def make_field2():
