@@ -2,17 +2,11 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-        name='experiment_code',
-        display_name="Part2_entire_16p",
+        name='Experiment_Test',
+        display_name="exp_entire_16p",
         num_demo_participants=16,
-        app_sequence=['part1','Survey','Interaction']
+        app_sequence=['Game','Survey','Interaction']
     ),
-    dict(
-        name='Interaction_test',
-        display_name="Part2_interaction_8p",
-        num_demo_participants=8,
-        app_sequence=['Interaction_test']
-    )
 ]
 
 import os
