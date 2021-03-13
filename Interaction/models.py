@@ -46,9 +46,9 @@ class Constants(BaseConstants):
 class Subsession(BaseSubsession):
 
     def do_my_shuffle(self):
-        name_list = ['Bestla','Chaldene','Daphnis','Elara','Farbauti','Galatea','Halimede','Iocaste','Jarnsaxa','Lysithea',
-            'Metis','Nereid','Orthosie','Pasiphae','Sinope','Thyone']
-        #name_list = ['Bestla','Chaldene','Daphnis','Elara','Farbauti','Galatea','Halimede','Iocaste']
+        name_list = ["Amalthea", "Bestla", "Chaldene", "Daphnis", "Elara", "Fabauti", "Galatea", "Halimede", "Iocaste", "Jarnsaxa",
+         "Kale", "Lysithea", "Metis", "Nereid", "Orthosie", "Pasiphae", "Rhea", "Sinope", "Thyone", "Umbriel"]
+        
         random.shuffle(name_list)
         for p in self.get_players():
                        
