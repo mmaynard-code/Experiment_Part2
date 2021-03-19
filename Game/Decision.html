@@ -93,17 +93,9 @@
 <div class="col" style="margin-top: 10px">
     <div class="row">
         <div class="col-7">
-            <p>
-            You can rate other players on a scale of 0 to 10 according to how much you trust them.
-            You can only rate players who you have already met in one of the games up to the round you are in.
-            </p>
             {% if subsession.round_number == 1 %}
                 <p>
                     As this is the first round, everyone starts with a default score of 5. You will be able to see your ratings in the next round.
-                </p>
-            {% elif subsession.round_number > Constants.round_share_start %}
-                <p>
-                    If your partner shared their rating with you, these are now the averages of your most recent rating and theirs from the previous rounds.
                 </p>
             {% else %}
                 <p>
@@ -114,16 +106,21 @@
         <div class="col">
             {% if subsession.round_number >= Constants.round_share_start %}
             <p>You have been randomly matched with <b>{{subsession.treatment_id}}</b> partners, and will remain matched with them for the remaining rounds of the game.</p>
-            <p>You can share your ratings of other players with them: this will affect the ratings they see next round.</p>
             {% else %}
             {% endif %}
         </div>
     </div>
 </div>
     <div class="row">
+        {% if subsession.round_number == 1 %}
         <div class="col-6">
-            <p>How would you rate those you played with this round?</p>
+            <p>Everyone starts with a base rating of 5.</p>
         </div>
+        {% else %}
+        <div class="col-6">
+            <p>These are your ratings from the previous round.</p>
+        </div>
+        {% endif %}
         {% if subsession.round_number >= Constants.round_share_start %}
         <div class="col">
         {% else %}

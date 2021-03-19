@@ -1,17 +1,20 @@
 from os import environ
 
+
 SESSION_CONFIGS = [
     dict(
-        name='Experiment_Test',
-        display_name="exp_entire_16p",
-        num_demo_participants=16,
-        app_sequence=['Game','Survey','Interaction']
+        name="Part1",
+        display_name="part1",
+        app_sequence=['Game'],
+        num_demo_participants=16
     ),
+    dict(
+        name="Full_Experiment",
+        display_name="experiment",
+        app_sequence=['Game','Survey','Interaction'],
+        num_demo_participants=16
+    )
 ]
-
-import os
-print(os.environ)
-
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
 # in SESSION_CONFIGS, except those that explicitly override it.
@@ -19,8 +22,9 @@ print(os.environ)
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, 
-    participation_fee=0.00, doc="",
+    real_world_currency_per_point=1.00,
+    participation_fee=0.00,
+    doc=""
 )
 
 # ISO-639 code
@@ -30,8 +34,6 @@ LANGUAGE_CODE = 'en'
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'USD'
 USE_POINTS = True
-POINTS_DECIMAL_PLACES = 1
-POINTS_CUSTOM_NAME = 'MUs'
 
 ROOMS = []
 
@@ -39,9 +41,11 @@ ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable
 ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
 
-DEMO_PAGE_INTRO_HTML = """ """
+DEMO_PAGE_INTRO_HTML = """
+Here are some oTree games.
+"""
 
-SECRET_KEY = 'e2llb4o9)&#_hb-b3a$slw*r%)&d8v7g1k6udx=576)tmku&k2'
 
-# if an app is included in SESSION_CONFIGS, you don't need to list it here
+SECRET_KEY = '5716809481966'
+
 INSTALLED_APPS = ['otree']

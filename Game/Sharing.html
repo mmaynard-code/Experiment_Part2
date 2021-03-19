@@ -1,6 +1,6 @@
 {% extends "global/Page.html" %}
 
-{% block title %}Results{% endblock %}
+{% block title %}Sharing{% endblock %}
 {% block content %}
 
 <div class="row">
@@ -8,11 +8,11 @@
     <p>
         Your randomly assigned name is <b>{{ player.participant.label}}</b>.
     </p>
-    {% if me_timed_out == 'd' %}
+    {% if me_timed_out == 'd0' or me_timed_out == 'd1' %}
         <p>
             You timed out without making any decisions.
         </p>
-    {% elif me_timed_out == 'b' %}
+    {% elif me_timed_out == 'b0' or me_timed_out == 'b1' %}
         <p>
             You timed out, but made one decision.
         </p>
@@ -23,7 +23,7 @@
             You chose {{ my_decision1 }} and <b>{{ opponent1_label }}</b> chose {{ opponent1_decision }} (<b>{{payoff1}}</b> earned)
             {% endif %}
         </p>
-    {% elif me_timed_out == 'c' %}
+    {% elif me_timed_out == 'c0' or me_timed_out == 'c1' %}
         <p>
             You timed out, but made one decision.
         </p>
@@ -36,7 +36,7 @@
         </p>
     {% else %}
         <p>
-            {% if opponent1_timed_out == 'b' or opponent1_timed_out == 'd'%}
+            {% if opponent1_timed_out == 'b0' or opponent1_timed_out == 'd0' or opponent1_timed_out == 'b1' or opponent1_timed_out == 'd1' %}
                 <b>{{ opponent1_label }}</b> timed out (<b>{{payoff1}}</b> earned)
             {% elif same_choice1 %}
                 Both you and <b>{{ opponent1_label }}</b> chose to {{ my_decision1 }} (<b>{{payoff1}}</b> earned)
@@ -45,7 +45,7 @@
             {% endif %}
         </p>
         <p>
-            {% if opponent2_timed_out == 'c' or opponent2_timed_out == 'd' %}
+            {% if opponent2_timed_out == 'c0' or opponent2_timed_out == 'd0' or opponent2_timed_out == 'c1' or opponent2_timed_out == 'd1' %}
                 <b>{{ opponent2_label }}</b> timed out (<b>{{payoff2}}</b> earned)
             {% elif same_choice2 %}
                 Both you and <b>{{ opponent2_label }}</b> chose to {{ my_decision2 }} (<b>{{payoff2}}</b> earned)
@@ -58,42 +58,13 @@
         In total, you have earned <b>{{ player.payoff }}</b> this round.
     </p>
 </div>
-<div class="col" style="margin-top: 10px">
-    <div class="row">
-        <div class="col-7">
-            <p>
-            You can rate other players on a scale of 0 to 10 according to how much you trust them.
-            You can only rate players who you have already met in one of the games up to the round you are in.
-            </p>
-            {% if subsession.round_number == 1 %}
-                <p>
-                    As this is the first round, everyone starts with a default score of 5. You will be able to see your ratings in the next round.
-                </p>
-            {% else %}
-                <p>
-                    These are your ratings from the previous round.
-                </p>
-            {% endif %}
-            <input type="hidden" name="my_ratings" id="my_ratings"/>
-        </div>
-        <div class="col">
-            {% if subsession.round_number >= Constants.round_share_start %}
-            <p>You have been randomly matched with <b>{{subsession.treatment_id}}</b> partners, and will remain matched with them for the remaining rounds of the game.</p>
-            <p>You can share your ratings of other players.</p>
-            {% else %}
-            {% endif %}
-            <input type="hidden" name="shared_ratings" id="shared_ratings"/>
-        </div>
-    </div>
-</div>
 
 
-
-
+<input type="hidden" name="my_ratings" id="my_ratings"/>
 <div id="ratings-container">
     <div class="row">
         <div class="col-6">
-            <p>How would you rate those you played with this round?</p>
+            <p>Do you want to change your ratings based on what your partners shared with you?</p>
         </div>
         {% if subsession.round_number >= Constants.round_share_start %}
         <div class="col">
@@ -102,14 +73,14 @@
         {% endif %}
             <div class="row">
                 <div class="col">
-                    <p><b>{{neighbour1}}</b></p>
+                    <p><b>{{neighbour1}}</b> shared these ratings with you:</p>
                 </div>
                 <div class="col">
-                    <p><b>{{neighbour2}}</b></p>
+                    <p><b>{{neighbour2}}</b> shared these ratings with you:</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
                 <div class="col">
-                    <p><b>{{neighbour3}}</b></p>
+                    <p><b>{{neighbour3}}</b> shared these ratings with you:</p>
                 </div>
                 {% endif %}
             </div>
@@ -124,7 +95,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer01range"
-                           value="{{other_player01_rank}}" {{other_player01_disable}}>
+                           value="{{other_player01_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -140,33 +111,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player01_base}}"
-                           id="share01_neighbour01" {{other_player01_disable}}>
+                <div class="col">
+                    <p>{{other_player01_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share01_neighbour01">
-                    Share {{other_player01}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player01_base}}"
-                           id="share01_neighbour02" {{other_player01_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share01_neighbour02">
-                    Share {{other_player01}} rating
-                    </label>
+                    <p>{{other_player01_n2rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player01_base}}"
-                           id="share01_neighbour03" {{other_player01_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share01_neighbour03">
-                    Share {{other_player01}} rating
-                    </label>
+                    <p>{{other_player01_n3rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -182,7 +135,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer02range"
-                           value="{{other_player02_rank}}" {{other_player02_disable}}>
+                           value="{{other_player02_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -198,33 +151,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player02_base}}"
-                           id="share02_neighbour01" {{other_player02_disable}}>
+                <div class="col">
+                    <p>{{other_player02_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share02_neighbour01">
-                    Share {{other_player02}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player02_base}}"
-                           id="share02_neighbour02" {{other_player02_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share02_neighbour02">
-                    Share {{other_player02}} rating
-                    </label>
+                    <p>{{other_player02_n2rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player02_base}}"
-                           id="share02_neighbour03" {{other_player02_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share02_neighbour03">
-                    Share {{other_player02}} rating
-                    </label>
+                    <p>{{other_player02_n3rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -241,7 +176,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer03range"
-                           value="{{other_player03_rank}}" {{other_player03_disable}}>
+                           value="{{other_player03_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -257,33 +192,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player03_base}}"
-                           id="share03_neighbour01" {{other_player03_disable}}>
+                <div class="col">
+                    <p>{{other_player03_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share03_neighbour01">
-                    Share {{other_player03}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player03_base}}"
-                           id="share03_neighbour02" {{other_player03_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share03_neighbour02">
-                    Share {{other_player03}} rating
-                    </label>
+                    <p>{{other_player03_n2rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player03_base}}"
-                           id="share03_neighbour03" {{other_player03_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share03_neighbour03">
-                    Share {{other_player03}} rating
-                    </label>
+                    <p>{{other_player03_n3rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -299,7 +216,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer04range"
-                           value="{{other_player04_rank}}" {{other_player04_disable}}>
+                           value="{{other_player04_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -315,33 +232,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player04_base}}"
-                           id="share04_neighbour01" {{other_player04_disable}}>
+                <div class="col">
+                    <p>{{other_player04_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share04_neighbour01">
-                    Share {{other_player04}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player04_base}}"
-                           id="share04_neighbour02" {{other_player04_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share04_neighbour02">
-                    Share {{other_player04}} rating
-                    </label>
+                    <p>{{other_player04_n2rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player04_base}}"
-                           id="share04_neighbour03" {{other_player04_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share04_neighbour03">
-                    Share {{other_player04}} rating
-                    </label>
+                    <p>{{other_player04_n3rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -357,7 +256,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer05range"
-                           value="{{other_player05_rank}}" {{other_player05_disable}}>
+                           value="{{other_player05_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -373,33 +272,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player05_base}}"
-                           id="share05_neighbour01" {{other_player05_disable}}>
+                <div class="col">
+                    <p>{{other_player05_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share05_neighbour01">
-                    Share {{other_player05}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player05_base}}"
-                           id="share05_neighbour02" {{other_player05_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share05_neighbour02">
-                    Share {{other_player05}} rating
-                    </label>
+                    <p>{{other_player05_n2rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player05_base}}"
-                           id="share05_neighbour03" {{other_player05_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share05_neighbour03">
-                    Share {{other_player05}} rating
-                    </label>
+                    <p>{{other_player05_n3rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -415,7 +296,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer06range"
-                           value="{{other_player06_rank}}" {{other_player06_disable}}>
+                           value="{{other_player06_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -431,33 +312,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player06_base}}"
-                           id="share06_neighbour01" {{other_player06_disable}}>
+                <div class="col">
+                    <p>{{other_player06_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share06_neighbour01">
-                    Share {{other_player06}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player06_base}}"
-                           id="share06_neighbour02" {{other_player06_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share06_neighbour02">
-                    Share {{other_player06}} rating
-                    </label>
+                    <p>{{other_player06_n2rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player06_base}}"
-                           id="share06_neighbour03" {{other_player06_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share06_neighbour03">
-                    Share {{other_player06}} rating
-                    </label>
+                    <p>{{other_player06_n3rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -473,7 +336,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer07range"
-                           value="{{other_player07_rank}}" {{other_player07_disable}}>
+                           value="{{other_player07_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -489,33 +352,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player07_base}}"
-                           id="share07_neighbour01" {{other_player07_disable}}>
+                <div class="col">
+                    <p>{{other_player07_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share07_neighbour01">
-                    Share {{other_player07}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player07_base}}"
-                           id="share07_neighbour02" {{other_player07_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share07_neighbour02">
-                    Share {{other_player07}} rating
-                    </label>
+                    <p>{{other_player07_n2rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player07_base}}"
-                           id="share07_neighbour03" {{other_player07_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share07_neighbour03">
-                    Share {{other_player07}} rating
-                    </label>
+                    <p>{{other_player07_n3rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -531,7 +376,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer08range"
-                           value="{{other_player08_rank}}" {{other_player08_disable}}>
+                           value="{{other_player08_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -547,33 +392,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player08_base}}"
-                           id="share08_neighbour01" {{other_player08_disable}}>
+                <div class="col">
+                    <p>{{other_player08_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share08_neighbour01">
-                    Share {{other_player08}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player08_base}}"
-                           id="share08_neighbour02" {{other_player08_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share08_neighbour02">
-                    Share {{other_player08}} rating
-                    </label>
+                    <p>{{other_player08_n2rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player08_base}}"
-                           id="share08_neighbour03" {{other_player08_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share08_neighbour03">
-                    Share {{other_player08}} rating
-                    </label>
+                    <p>{{other_player08_n1rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -589,7 +416,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer09range"
-                           value="{{other_player09_rank}}" {{other_player09_disable}}>
+                           value="{{other_player09_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -605,33 +432,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player09_base}}"
-                           id="share09_neighbour01" {{other_player09_disable}}>
+                <div class="col">
+                    <p>{{other_player09_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share09_neighbour01">
-                    Share {{other_player09}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player09_base}}"
-                           id="share09_neighbour02" {{other_player09_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share09_neighbour02">
-                    Share {{other_player09}} rating
-                    </label>
+                    <p>{{other_player09_n1rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player09_base}}"
-                           id="share09_neighbour03" {{other_player09_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share09_neighbour03">
-                    Share {{other_player09}} rating
-                    </label>
+                    <p>{{other_player09_n1rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -647,7 +456,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer10range"
-                           value="{{other_player10_rank}}" {{other_player10_disable}}>
+                           value="{{other_player10_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -663,33 +472,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player10_base}}"
-                           id="share10_neighbour01" {{other_player10_disable}}>
+                <div class="col">
+                    <p>{{other_player10_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share10_neighbour01">
-                    Share {{other_player10}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player10_base}}"
-                           id="share10_neighbour02" {{other_player10_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share10_neighbour02">
-                    Share {{other_player10}} rating
-                    </label>
+                    <p>{{other_player10_n1rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player10_base}}"
-                           id="share10_neighbour03" {{other_player10_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share10_neighbour03">
-                    Share {{other_player10}} rating
-                    </label>
+                    <p>{{other_player10_n1rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -705,7 +496,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer11range"
-                           value="{{other_player11_rank}}" {{other_player11_disable}}>
+                           value="{{other_player11_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -721,33 +512,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player11_base}}"
-                           id="share11_neighbour01" {{other_player11_disable}}>
+                <div class="col">
+                    <p>{{other_player11_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share11_neighbour01">
-                    Share {{other_player11}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player11_base}}"
-                           id="share11_neighbour02" {{other_player11_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share11_neighbour02">
-                    Share {{other_player11}} rating
-                    </label>
+                    <p>{{other_player11_n1rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player11_base}}"
-                           id="share11_neighbour03" {{other_player11_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share11_neighbour03">
-                    Share {{other_player11}} rating
-                    </label>
+                    <p>{{other_player11_n1rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -763,7 +536,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer12range"
-                           value="{{other_player12_rank}}" {{other_player12_disable}}>
+                           value="{{other_player12_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -779,33 +552,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player12_base}}"
-                           id="share12_neighbour01" {{other_player12_disable}}>
+                <div class="col">
+                    <p>{{other_player12_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share12_neighbour01">
-                    Share {{other_player12}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player12_base}}"
-                           id="share12_neighbour02" {{other_player12_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share12_neighbour02">
-                    Share {{other_player12}} rating
-                    </label>
+                    <p>{{other_player12_n1rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player12_base}}"
-                           id="share12_neighbour03" {{other_player12_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share12_neighbour03">
-                    Share {{other_player12}} rating
-                    </label>
+                    <p>{{other_player12_n1rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -821,7 +576,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer13range"
-                           value="{{other_player13_rank}}" {{other_player13_disable}}>
+                           value="{{other_player13_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -837,33 +592,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player13_base}}"
-                           id="share13_neighbour01" {{other_player13_disable}}>
+                <div class="col">
+                    <p>{{other_player13_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share13_neighbour01">
-                    Share {{other_player13}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player13_base}}"
-                           id="share13_neighbour02" {{other_player13_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share13_neighbour02">
-                    Share {{other_player13}} rating
-                    </label>
+                    <p>{{other_player13_n1rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player13_base}}"
-                           id="share13_neighbour03" {{other_player13_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share13_neighbour03">
-                    Share {{other_player13}} rating
-                    </label>
+                    <p>{{other_player13_n1rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -879,7 +616,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer14range"
-                           value="{{other_player14_rank}}" {{other_player14_disable}}>
+                           value="{{other_player14_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -895,33 +632,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player14_base}}"
-                           id="share14_neighbour01" {{other_player14_disable}}>
+                <div class="col">
+                    <p>{{other_player14_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share14_neighbour01">
-                    Share {{other_player14}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player14_base}}"
-                           id="share14_neighbour02" {{other_player14_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share14_neighbour02">
-                    Share {{other_player14}} rating
-                    </label>
+                    <p>{{other_player14_n1rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player14_base}}"
-                           id="share14_neighbour03" {{other_player14_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share14_neighbour03">
-                    Share {{other_player14}} rating
-                    </label>
+                    <p>{{other_player14_n1rating}}</p>
                 </div>
                 {% endif %}
             </div>
@@ -937,7 +656,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer15range"
-                           value="{{other_player15_rank}}" {{other_player15_disable}}>
+                           value="{{other_player15_rank}}">
                 </div>
                 <div class="col-1">
                      10
@@ -953,33 +672,15 @@
         <div class="col invisible">
         {% endif %}
             <div class="row g-1">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player15_base}}"
-                           id="share15_neighbour01" {{other_player15_disable}}>
+                <div class="col">
+                    <p>{{other_player15_n1rating}}</p>
                 </div>
                 <div class="col">
-                    <label class="form-check-label" for="share15_neighbour01">
-                    Share {{other_player15}} rating
-                    </label>
-                </div>
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player15_base}}"
-                           id="share15_neighbour02" {{other_player15_disable}}>
-                </div>
-                <div class="col">
-                    <label class="form-check-label" for="share15_neighbour02">
-                    Share {{other_player15}} rating
-                    </label>
+                    <p>{{other_player15_n1rating}}</p>
                 </div>
                 {% if subsession.treatment_id == 3 %}
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox" value="{{other_player15_base}}"
-                           id="share15_neighbour03" {{other_player15_disable}}>
-                </div>
                 <div class="col">
-                    <label class="form-check-label" for="share15_neighbour03">
-                    Share {{other_player15}} rating
-                    </label>
+                    <p>{{other_player15_n1rating}}</p>
                 </div>
                 {% endif %}
             </div>
