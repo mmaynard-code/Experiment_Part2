@@ -56,6 +56,9 @@ class Subsession(BaseSubsession):
                 p.participant.vars['num_timeout'] = 0
                 p.participant.vars['is_dropout'] = False
                 p.participant.vars['check_dropout'] = False
+                p.participant.vars['survey_display1'] = []
+                p.participant.vars['survey_display2'] = []
+                p.participant.vars['opinions_display'] = []
 
             all_issues = p.participant.vars['issues_answers']
             num_issue = Constants.num_issues[self.round_number-1]
@@ -188,14 +191,16 @@ class Group(BaseGroup):
                 else:
                     reward_20MUs = p_give
 
-            p.payoff = reward_meeting + reward_20MUs
+            payoff_p2 = reward_meeting + reward_20MUs
             
             num_timeout = p.participant.vars['num_timeout']
             if num_timeout > 5:
                 if num_timeout < 11:
-                    p.payoff = p.payoff*0.9
+                    payoff_p2 = payoff_p2*0.9
                 else:
-                    p.payoff = p.payoff*0.8
+                    payoff_p2 = payoff_p2*0.8
+            
+            p.payoff = p.payoff + payoff_p2
        
 
 class Player(BasePlayer):
@@ -228,6 +233,7 @@ class Player(BasePlayer):
             other_answers = p.participant.vars['survey2_answers']
             different_answer = [x for x in other_answers if x not in my_answer]
             different_answers.append(different_answer)
+        self.participant.vars['survey_display1'].append(different_answers)
         return different_answers
 
     def get_survey3_6_diff(self,step):
@@ -268,6 +274,7 @@ class Player(BasePlayer):
             diff_answers.append(answer_s8)
 
             diff_answers_all.append(diff_answers)
+            self.participant.vars['survey_display2'].append(diff_answers_all)
         return diff_answers_all
 
     def get_all_answers(self, step):
@@ -353,3 +360,10 @@ class Player(BasePlayer):
     message_step3_1 = message()
     message_step3_2 = message()
     message_step3_3 = message()
+
+def custom_export(players):
+    yield ['session', 'participant_code', 'round_number', 'idd_in_group', 'timeout', "surv_display1", 'surv_display2', 'op_display']
+    for p in players:
+        yield [p.session.code, p.participant.code, p.round_number, p.id_in_group, 
+            p.participant.vars.get('is_dropout', None), p.participant.vars.get('survey_display1', None),
+            p.participant.vars.get('survey_display2', None), p.participant.vars.get('opinions_display', None)]

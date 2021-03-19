@@ -28,6 +28,7 @@ class Step1(Page):
         diff_answers_s2 = self.player.comp_survey2(1)
         diff_answers_s3_6 = self.player.get_survey3_6_diff(1)
         p_names = self.player.get_p_names(my_parterners_id)
+        my_name = self.player.participant.vars['name']
 
         vars_dict = dict(
                 my_id = self.player.id_in_group,
@@ -36,7 +37,8 @@ class Step1(Page):
                 l_p1_diff_answers_s2 = len(diff_answers_s2[0]),
                 p1_diff_answers_s3_6 = diff_answers_s3_6[0],
                 l_p1_diff_answers_s3_6 = len(diff_answers_s3_6[0]),
-                p1_name = p_names[0]
+                p1_name = p_names[0],
+                my_name = my_name
                 )
         
         if num_p != 1:
@@ -112,6 +114,7 @@ class Step2_1(Page):
         all_answers = self.player.get_all_answers(2)
         my_answer = all_answers[0]
         p_answers = all_answers[1]
+        self.player.participant.vars['opinions_display'].append(p_answers)
 
         p_names = self.player.get_p_names(my_parterners_id_step2)
 
@@ -196,6 +199,7 @@ class Step2_2(Page):
         all_answers = self.player.get_all_answers(2)
         my_answer = all_answers[0]
         p_answers = all_answers[1]
+        self.player.participant.vars['opinions_display'].append(p_answers)
         p_names = self.player.get_p_names(my_parterners_id)
 
         vars_dict = dict(
@@ -355,6 +359,7 @@ class Step2_4(Page):
         all_answers = self.player.get_all_answers(2)
         my_answer = all_answers[0]
         p_answers = all_answers[1]
+        self.player.participant.vars['opinions_display'].append(p_answers)
 
         vars_dict = dict(
             my_answer = my_answer,
@@ -527,6 +532,7 @@ class Step3_1(Page):
         all_answers = self.player.get_all_answers(3)
         my_answer = all_answers[0]
         p_answers = all_answers[1]
+        self.player.participant.vars['opinions_display'].append(p_answers)
 
         likability = self.player.get_likability(my_parterners_id_step3)
 
@@ -599,6 +605,7 @@ class Step3_2(Page):
         all_answers = self.player.get_all_answers(3)
         my_answer = all_answers[0]
         p_answers = all_answers[1]
+        self.player.participant.vars['opinions_display'].append(p_answers)
 
         vars_dict = dict(
             my_answer = my_answer,
