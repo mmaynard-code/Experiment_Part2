@@ -191,8 +191,6 @@ class Group(BaseGroup):
                 else:
                     reward_20MUs = p_give
             
-
-            # payoff_p2 = reward_meeting + reward_20MUs
             
             num_timeout = p.participant.vars['num_timeout']
             if num_timeout > 5:
@@ -205,6 +203,7 @@ class Group(BaseGroup):
             
             p.participant.vars['reward_meeting'] = reward_meeting
             p.participant.vars['reward_20MUs'] = reward_20MUs
+            # payoff_p2 = reward_meeting + reward_20MUs
             
             # p.payoff = p.payoff + payoff_p2
        

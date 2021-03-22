@@ -718,15 +718,15 @@ class Do_payoff(WaitPage):
     
     after_all_players_arrive ='do_payoff'
 
-class Payoff(Page):
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds
+# class Payoff(Page):
+#     def is_displayed(self):
+#         return self.round_number == Constants.num_rounds
     
-    def vars_for_template(self):
-        return dict(
-            my_payoff = self.player.payoff,
-            drop_out = self.player.participant.vars["is_dropout"]
-        )
+#     def vars_for_template(self):
+#         return dict(
+#             my_payoff = self.player.payoff,
+#             drop_out = self.player.participant.vars["is_dropout"]
+#         )
 
 class Dropout_check(Page):
     def is_displayed(self):
@@ -754,5 +754,5 @@ class Dropout_check(Page):
 page_sequence = [MatchingWaitPage, Step1, Dropout_check, Step2_1, Dropout_check, PreMessageWait_step2_1, Step2_2, 
     Dropout_check, MessageWait_step2_1, Step2_3, Dropout_check, PreMessageWait_step2_2, Step2_4, Dropout_check, 
     MessageWait_step2_2, Step2_5, Dropout_check, PreMessageWait_step2_3, Step3_1, Dropout_check, PreMessageWait_step3, Step3_2, 
-    Dropout_check, MessageWait_step3, Step3_3, Do_payoff, Payoff]
+    Dropout_check, MessageWait_step3, Step3_3, Do_payoff]
 #MatchingWaitPage, 
