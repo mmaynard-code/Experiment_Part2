@@ -352,7 +352,7 @@ class Player(BasePlayer):
     def message():
         return models.StringField(
             choices=["You are completely wrong with your opinion. Your opinion is absolutely not realistic. Rethink your position and change your mind so that is closer to mine.",
-                "I would appreciate it if you could move your opinion closer to mine", "I would be happy if you could move your opinion closer to mine.","Why don’t you move your opinion closer to mine?"],
+                "I would appreciate it if you could move your opinion closer to mine", "I would be happy if you could move your opinion closer to mine.","Why don’t you move your opinion closer to mine?","It is nice to see that your opinion is so close to mine!"],
             widget=widgets.RadioSelect
         )
     
