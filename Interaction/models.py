@@ -190,17 +190,20 @@ class Group(BaseGroup):
                     reward_20MUs = my_keep
                 else:
                     reward_20MUs = p_give
+            
+            p.participant.vars['reward_meeting'] = reward_meeting
+            p.participant.vars['reward_20MUs'] = reward_20MUs
 
-            payoff_p2 = reward_meeting + reward_20MUs
+            # payoff_p2 = reward_meeting + reward_20MUs
             
-            num_timeout = p.participant.vars['num_timeout']
-            if num_timeout > 5:
-                if num_timeout < 11:
-                    payoff_p2 = payoff_p2*0.9
-                else:
-                    payoff_p2 = payoff_p2*0.8
+            # num_timeout = p.participant.vars['num_timeout']
+            # if num_timeout > 5:
+            #     if num_timeout < 11:
+            #         payoff_p2 = payoff_p2*0.9
+            #     else:
+            #         payoff_p2 = payoff_p2*0.8
             
-            p.payoff = p.payoff + payoff_p2
+            # p.payoff = p.payoff + payoff_p2
        
 
 class Player(BasePlayer):
