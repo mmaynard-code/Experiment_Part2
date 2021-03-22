@@ -15,9 +15,8 @@ class Constants(BaseConstants):
     name_in_url = 'Game'
     players_per_group = 4
     num_rounds = 10
-    timeout_time = 23
     random_names = tuple(
-        ["Altair", "Birtum", "Ceres", "Deneb", "Enki", "Faumea", "Ganymede", "Hadar", "Indus", "Kuiper",
+        ["Altair", "Birtum", "Ceres", "Deneb", "Enki", "Faumea", "Ganymede", "Hadar", "Indus", "Kestas",
          "Lahar", "Meissa", "Nirah", "Oizys", "Phobos", "Rhapso", "Sedna", "Thesan", "Usil", "Vanth"])
     # Used to control the start of rating sharings
     round_share_start = 6
@@ -42,13 +41,12 @@ class Constants(BaseConstants):
     # Group 2, groups even participant IDs
     network2 = [2, 4, 6, 8, 10, 12, 14, 16]
     # Neighnour network used in Experiment
-    treatment_id = [2, 3]
-    control_id = [0, 0]
+    treatment_id = [1, 2, 3]
     # Neighbour network for Control
-    treatment_c = {1: [2, 16], 2: [3, 1], 3: [4, 2], 4: [5, 3],
-                   5: [6, 4], 6: [7, 5], 7: [8, 6], 8: [9, 7],
-                   9: [10, 8], 10: [11, 9], 11: [12, 10], 12: [13, 11],
-                   13: [14, 12], 14: [15, 13], 15: [16, 14], 16: [1, 15]}
+    treatment_c = {1: [3, 15, 5], 2: [4, 16, 6], 3: [5, 1, 15], 4: [6, 2, 16],
+                   5: [7, 3, 1], 6: [8, 4, 2], 7: [9, 5, 11], 8: [10, 6, 12],
+                   9: [11, 7, 13], 10: [12, 8, 14], 11: [13, 9, 7], 12: [14, 10, 8],
+                   13: [15, 11, 9], 14: [16, 12, 10], 15: [1, 13, 3], 16: [2, 14, 4]}
     # Neighbour network for Testing
     treatment_t = {1: [3, 2], 2: [4, 1], 3: [1, 4], 4: [2, 3]}
     # Neighbour network for Treatment 2 Neighbours
@@ -80,6 +78,8 @@ class Player(BasePlayer):
     control_id = models.IntegerField()
     opponents = models.StringField()
     payoffs = models.StringField()
+    error_out = models.IntegerField(
+        initial=0)
 
     # Decision values for both games
     decision1 = models.StringField(
@@ -111,38 +111,38 @@ def creating_session(subsession):
     labels = random.sample(Constants.random_names, 16)
     if subsession.round_number == 1:
         subsession.treatment_id = int(random.sample(Constants.treatment_id, 1)[0])
-        subsession.control_id = int(random.sample(Constants.control_id, 1)[0])
+        if subsession.treatment_id == 1:
+            subsession.control_id = 1
+        else:
+            subsession.control_id = 0
     elif subsession.round_number > 1:
         subsession.treatment_id = subsession.in_round(subsession.round_number - 1).treatment_id
         subsession.control_id = subsession.in_round(subsession.round_number - 1).control_id
-    if subsession.control_id == 0:
-        network1 = Constants.network1.copy()
-        network2 = Constants.network2.copy()
-        group_matrix = []
-        # pop elements from network1 until it's empty
-        while network1:
-            p1 = int(str(random.sample(network1, 1))[1:-1])
+    network1 = Constants.network1.copy()
+    network2 = Constants.network2.copy()
+    group_matrix = []
+    # pop elements from network1 until it's empty
+    while network1:
+        p1 = int(str(random.sample(network1, 1))[1:-1])
+        p2 = int(str(random.sample(network1, 1))[1:-1])
+        p3 = int(str(random.sample(network2, 1))[1:-1])
+        p4 = int(str(random.sample(network2, 1))[1:-1])
+        while p1 == p2:
             p2 = int(str(random.sample(network1, 1))[1:-1])
-            p3 = int(str(random.sample(network2, 1))[1:-1])
+        while p3 == p4:
             p4 = int(str(random.sample(network2, 1))[1:-1])
-            while p1 == p2:
-                p2 = int(str(random.sample(network1, 1))[1:-1])
-            while p3 == p4:
-                p4 = int(str(random.sample(network2, 1))[1:-1])
-            new_group = [
-                p1,
-                p2,
-                p3,
-                p4,
-            ]
-            network1.remove(p1)
-            network1.remove(p2)
-            network2.remove(p3)
-            network2.remove(p4)
-            group_matrix.append(new_group)
-        subsession.set_group_matrix(group_matrix)
-    else:
-        subsession.group_randomly()
+        new_group = [
+            p1,
+            p2,
+            p3,
+            p4,
+        ]
+        network1.remove(p1)
+        network1.remove(p2)
+        network2.remove(p3)
+        network2.remove(p4)
+        group_matrix.append(new_group)
+    subsession.set_group_matrix(group_matrix)
     for p, label in zip(subsession.get_players(), labels):
         p.participant.label = label
         if subsession.control_id == 0:
@@ -368,8 +368,22 @@ def get_base_ratings(player: Player):
 
 def tidy_ratings(player: Player):
     # Tidies up the my_ratings and shared_ratings submitted on the page
-    p_ratings = player.my_ratings[0:-1]
-    p_shared_ratings = player.shared_ratings[0:-1]
+    if player.my_ratings == '' and player.round_number > 1:
+        if player.in_round(player.round_number - 1).my_ratings == '':
+            player.my_ratings = '5,5,5,5,5,5,5,5,5,5,5,5,5,5,5'
+            player.error_out = player.error_out + 1
+        else:
+            player.my_ratings = player.in_round(player.round_number - 1).my_ratings
+    else:
+        p_ratings = player.my_ratings[0:-1]
+    if player.shared_ratings == '' and player.round_number > 1:
+        if player.in_round(player.round_number - 1).shared_ratings == '':
+            player.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+            player.error_out = player.error_out + 1
+        else:
+            player.shared_ratings = player.in_round(player.round_number - 1).shared_ratings
+    else:
+        p_shared_ratings = player.shared_ratings[0:-1]
     player.my_ratings = p_ratings
     player.shared_ratings = p_shared_ratings
 
@@ -386,8 +400,10 @@ def set_received_rating(player: Player):
             n2 = neighbours[1]
             if n1.shared_ratings == '':
                 n1.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+                n1.error_out = n1.error_out + 1
             if n2.shared_ratings == '':
                 n2.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+                n2.error_out = n2.error_out + 1
             n1_shared = n1.shared_ratings.split(",")[0::2]
             n2_shared = n2.shared_ratings.split(",")[1::2]
             n1_others = get_other_players(n1)['all_other_players_labels']
@@ -417,10 +433,13 @@ def set_received_rating(player: Player):
             n3 = neighbours[2]
             if n1.shared_ratings == '':
                 n1.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+                n1.error_out = n1.error_out + 1
             if n2.shared_ratings == '':
                 n2.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+                n2.error_out = n2.error_out + 1
             if n3.shared_ratings == '':
                 n3.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+                n3.error_out = n3.error_out + 1
             n1_shared = n1.shared_ratings.split(",")[0::3]
             n2_shared = n2.shared_ratings.split(",")[1::3]
             n3_shared = n3.shared_ratings.split(",")[2::3]
@@ -492,6 +511,7 @@ class Decision(Page):
         if player.my_ratings == '' and player.round_number > 1:
             if player.in_round(player.round_number - 1).my_ratings == '':
                 player.my_ratings = '5,5,5,5,5,5,5,5,5,5,5,5,5,5,5'
+                player.error_out = player.error_out + 1
             else:
                 player.my_ratings = player.in_round(player.round_number - 1).my_ratings
 
@@ -626,6 +646,7 @@ class Results(Page):
         if player.my_ratings == '' and player.round_number > 1:
             if player.in_round(player.round_number - 1).my_ratings == '':
                 player.my_ratings = '5,5,5,5,5,5,5,5,5,5,5,5,5,5,5'
+                player.error_out = player.error_out + 1
             else:
                 player.my_ratings = player.in_round(player.round_number - 1).my_ratings
 
@@ -740,7 +761,7 @@ class SharingWaitPage(WaitPage):
 
 
 class Sharing(Page):
-    timeout_seconds = 60
+    timeout_seconds = 90
     form_model = 'player'
     form_fields = ['my_ratings']
     def is_displayed(self):
@@ -766,6 +787,9 @@ class Sharing(Page):
         opponent2 = get_opponents(player)[1]
 
         shared_rating_list = []
+        if player.received_ratings == '':
+            player.received_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+            player.error_out = player.error_out + 1
         for i in player.received_ratings.split(","):
             if i == '-2' or i == '-1':
                 shared_rating_list.append('-')
@@ -775,6 +799,7 @@ class Sharing(Page):
         if player.my_ratings == '' and player.round_number > 1:
             if player.in_round(player.round_number - 1).my_ratings == '':
                 player.my_ratings = '5,5,5,5,5,5,5,5,5,5,5,5,5,5,5'
+                player.error_out = player.error_out + 1
             else:
                 player.my_ratings = player.in_round(player.round_number - 1).my_ratings
 
