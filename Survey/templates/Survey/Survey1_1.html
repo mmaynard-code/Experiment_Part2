@@ -29,16 +29,15 @@
 
     <div style="margin-top: 10px;">
         <p>1. Please give your opinion on this issue:</p>
-        <p style="text-align: center; font-size: large;">
-            <strong>"The warning signs on cigarette boxes should cover [0…100] percent of the box total surface."</strong>
-        </p>
         <div class="input-group" data-slider="">
             <input type="range" name="survey_1_1a" min="0" max="100" step="1" id="volume">    
             <div>
                 Current value: <strong><span data-slider-value="">0</span></strong>
             </div>
         </div><br>
-        
+        <p style="text-align: center; font-size: large;">
+            <strong>"The warning signs on cigarette boxes should cover [0…100] percent of the box total surface."</strong>
+        </p>
      
         {% formfield player.survey_1_1b %}
         {% formfield player.survey_1_1c %}

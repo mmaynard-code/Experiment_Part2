@@ -28,8 +28,8 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00,
-    participation_fee=0.00,
+    real_world_currency_per_point=0.50,
+    participation_fee=15.00,
     doc=""
 )
 
@@ -41,7 +41,12 @@ LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'USD'
 USE_POINTS = True
 
-ROOMS = []
+ROOMS = [
+    dict(
+        name="session1",
+        display_name="session1",
+    )
+]
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable

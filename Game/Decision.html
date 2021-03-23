@@ -105,7 +105,7 @@
         </div>
         <div class="col">
             {% if subsession.round_number >= Constants.round_share_start %}
-            <p>You have been randomly matched with <b>{{subsession.treatment_id}}</b> partners, and will remain matched with them for the remaining rounds of the game.</p>
+            <p>You have been randomly matched with <b>{{ subsession.n_neighbours }}</b> partners, and will remain matched with them for the remaining rounds of the game.</p>
             {% else %}
             {% endif %}
         </div>
@@ -133,7 +133,7 @@
                 <div class="col">
                     <p><b>{{neighbour2}}</b></p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p><b>{{neighbour3}}</b></p>
                 </div>
@@ -189,7 +189,7 @@
                     Share {{other_player01}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share01_neighbour03" disabled>
@@ -248,7 +248,7 @@
                     Share {{other_player02}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share02_neighbour03" disabled>
@@ -309,7 +309,7 @@
                     Share {{other_player03}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share03_neighbour03" disabled>
@@ -367,7 +367,7 @@
                     Share {{other_player04}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share04_neighbour03" disabled>
@@ -425,7 +425,7 @@
                     Share {{other_player05}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share05_neighbour03" disabled>
@@ -483,7 +483,7 @@
                     Share {{other_player06}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share06_neighbour03" disabled>
@@ -541,7 +541,7 @@
                     Share {{other_player07}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share07_neighbour03" disabled>
@@ -599,7 +599,7 @@
                     Share {{other_player08}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share08_neighbour03" disabled>
@@ -657,7 +657,7 @@
                     Share {{other_player09}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share09_neighbour03" disabled>
@@ -715,7 +715,7 @@
                     Share {{other_player10}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share10_neighbour03" disabled>
@@ -773,7 +773,7 @@
                     Share {{other_player11}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share11_neighbour03" disabled>
@@ -831,7 +831,7 @@
                     Share {{other_player12}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share12_neighbour03" disabled>
@@ -889,7 +889,7 @@
                     Share {{other_player13}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share13_neighbour03" disabled>
@@ -947,7 +947,7 @@
                     Share {{other_player14}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share14_neighbour03" disabled>
@@ -1005,7 +1005,7 @@
                     Share {{other_player15}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="0"
                            id="share15_neighbour03" disabled>
@@ -1028,9 +1028,6 @@
     <h3>
         Instructions
     </h3>
-
-    <link rel="stylesheet" type="text/css"
-          href="{% static 'global/matrix.css' %}"/>
 
     <h3>
         The game
@@ -1066,9 +1063,6 @@
         scale from 0 to 10 according to how much you trust them. In a given round, you can only rate those who
         you have already met in one of the games up to the round you are in. By default, the neutral value of 5
         is set to everyone. In this step others can also evaluate your trustworthiness.
-        In the first five rounds, these two elements (game, rating) are repeated five times, but in Round 6 we
-        are going to introduce a new element: thereafter you will have the opportunity to share your rating with
-        other players.
     </p>
 </div>
 </div>

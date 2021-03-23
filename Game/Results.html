@@ -78,7 +78,7 @@
         </div>
         <div class="col">
             {% if subsession.round_number >= Constants.round_share_start %}
-            <p>You have been randomly matched with <b>{{subsession.treatment_id}}</b> partners, and will remain matched with them for the remaining rounds of the game.</p>
+            <p>You have been randomly matched with <b>{{subsession.n_neighbours}}</b> partners, and will remain matched with them for the remaining rounds of the game.</p>
             <p>You can share your ratings of other players.</p>
             {% else %}
             {% endif %}
@@ -107,7 +107,7 @@
                 <div class="col">
                     <p><b>{{neighbour2}}</b></p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p><b>{{neighbour3}}</b></p>
                 </div>
@@ -158,7 +158,7 @@
                     Share {{other_player01}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player01_base}}"
                            id="share01_neighbour03" {{other_player01_disable}}>
@@ -216,7 +216,7 @@
                     Share {{other_player02}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player02_base}}"
                            id="share02_neighbour03" {{other_player02_disable}}>
@@ -275,7 +275,7 @@
                     Share {{other_player03}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player03_base}}"
                            id="share03_neighbour03" {{other_player03_disable}}>
@@ -333,7 +333,7 @@
                     Share {{other_player04}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player04_base}}"
                            id="share04_neighbour03" {{other_player04_disable}}>
@@ -391,7 +391,7 @@
                     Share {{other_player05}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player05_base}}"
                            id="share05_neighbour03" {{other_player05_disable}}>
@@ -449,7 +449,7 @@
                     Share {{other_player06}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player06_base}}"
                            id="share06_neighbour03" {{other_player06_disable}}>
@@ -507,7 +507,7 @@
                     Share {{other_player07}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player07_base}}"
                            id="share07_neighbour03" {{other_player07_disable}}>
@@ -565,7 +565,7 @@
                     Share {{other_player08}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player08_base}}"
                            id="share08_neighbour03" {{other_player08_disable}}>
@@ -623,7 +623,7 @@
                     Share {{other_player09}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player09_base}}"
                            id="share09_neighbour03" {{other_player09_disable}}>
@@ -681,7 +681,7 @@
                     Share {{other_player10}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player10_base}}"
                            id="share10_neighbour03" {{other_player10_disable}}>
@@ -739,7 +739,7 @@
                     Share {{other_player11}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player11_base}}"
                            id="share11_neighbour03" {{other_player11_disable}}>
@@ -797,7 +797,7 @@
                     Share {{other_player12}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player12_base}}"
                            id="share12_neighbour03" {{other_player12_disable}}>
@@ -855,7 +855,7 @@
                     Share {{other_player13}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player13_base}}"
                            id="share13_neighbour03" {{other_player13_disable}}>
@@ -913,7 +913,7 @@
                     Share {{other_player14}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player14_base}}"
                            id="share14_neighbour03" {{other_player14_disable}}>
@@ -971,7 +971,7 @@
                     Share {{other_player15}} rating
                     </label>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox" value="{{other_player15_base}}"
                            id="share15_neighbour03" {{other_player15_disable}}>
@@ -998,9 +998,6 @@
     <h3>
         Instructions
     </h3>
-
-    <link rel="stylesheet" type="text/css"
-          href="{% static 'global/matrix.css' %}"/>
 
     <h3>
         The game

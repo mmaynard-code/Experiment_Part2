@@ -41,12 +41,8 @@ class Constants(BaseConstants):
     # Group 2, groups even participant IDs
     network2 = [2, 4, 6, 8, 10, 12, 14, 16]
     # Neighnour network used in Experiment
-    treatment_id = [1, 2, 3]
-    # Neighbour network for Control
-    treatment_c = {1: [3, 15, 5], 2: [4, 16, 6], 3: [5, 1, 15], 4: [6, 2, 16],
-                   5: [7, 3, 1], 6: [8, 4, 2], 7: [9, 5, 11], 8: [10, 6, 12],
-                   9: [11, 7, 13], 10: [12, 8, 14], 11: [13, 9, 7], 12: [14, 10, 8],
-                   13: [15, 11, 9], 14: [16, 12, 10], 15: [1, 13, 3], 16: [2, 14, 4]}
+    treatment_id = [2, 3, 4]
+    
     # Neighbour network for Testing
     treatment_t = {1: [3, 2], 2: [4, 1], 3: [1, 4], 4: [2, 3]}
     # Neighbour network for Treatment 2 Neighbours
@@ -59,11 +55,16 @@ class Constants(BaseConstants):
                    5: [7, 3, 13], 6: [8, 4, 14], 7: [9, 5, 15], 8: [10, 6, 16],
                    9: [11, 7, 1], 10: [12, 8, 2], 11: [13, 9, 3], 12: [14, 10, 4],
                    13: [15, 11, 5], 14: [16, 12, 6], 15: [1, 13, 7], 16: [2, 14, 8]}
+    # Neighbour network for Treatment 3 Neighbours, shorter paths
+    treatment_4 = {1: [3, 15, 5], 2: [4, 16, 6], 3: [5, 1, 15], 4: [6, 2, 16],
+                   5: [7, 3, 1], 6: [8, 4, 2], 7: [9, 5, 11], 8: [10, 6, 12],
+                   9: [11, 7, 13], 10: [12, 8, 14], 11: [13, 9, 7], 12: [14, 10, 8],
+                   13: [15, 11, 9], 14: [16, 12, 10], 15: [1, 13, 3], 16: [2, 14, 4]}
 
 
 class Subsession(BaseSubsession):
     treatment_id = models.IntegerField()
-    control_id = models.IntegerField()
+    n_neighbours = models.IntegerField()
 
 
 class Group(BaseGroup):
@@ -74,8 +75,8 @@ class Player(BasePlayer):
     # Setup variables
     timed_out = models.StringField(
         initial='a00')
+    n_neighbours = models.IntegerField()
     treatment_id = models.IntegerField()
-    control_id = models.IntegerField()
     opponents = models.StringField()
     payoffs = models.StringField()
     error_out = models.IntegerField(
@@ -111,13 +112,13 @@ def creating_session(subsession):
     labels = random.sample(Constants.random_names, 16)
     if subsession.round_number == 1:
         subsession.treatment_id = int(random.sample(Constants.treatment_id, 1)[0])
-        if subsession.treatment_id == 1:
-            subsession.control_id = 1
+        if subsession.treatment_id > 2:
+            subsession.n_neighbours = 3
         else:
-            subsession.control_id = 0
+            subsession.n_neighbours = 2
     elif subsession.round_number > 1:
         subsession.treatment_id = subsession.in_round(subsession.round_number - 1).treatment_id
-        subsession.control_id = subsession.in_round(subsession.round_number - 1).control_id
+        subsession.n_neighbours = subsession.in_round(subsession.round_number - 1).n_neighbours
     network1 = Constants.network1.copy()
     network2 = Constants.network2.copy()
     group_matrix = []
@@ -145,12 +146,8 @@ def creating_session(subsession):
     subsession.set_group_matrix(group_matrix)
     for p, label in zip(subsession.get_players(), labels):
         p.participant.label = label
-        if subsession.control_id == 0:
-            p.treatment_id = subsession.treatment_id
-            p.control_id = subsession.control_id
-        else:
-            p.treatment_id = 2
-            p.control_id = 0
+        p.treatment_id = subsession.treatment_id
+        p.n_neighbours = subsession.n_neighbours
 
 
 def set_payoffs(group: Group):
@@ -211,7 +208,10 @@ def set_payoff(player: Player):
     elif player.timed_out == 'c':
         # If player timed out with only decision 2, partial payoff
         payoff2 = 0
-    player.payoff = payoff1 + payoff2
+    if payoff1 + payoff2 == 0:
+        player.payoff = 0
+    else:
+        player.payoff = (payoff1 + payoff2) / 2
     player.payoffs = re.sub(r'[\[\]\' ]', '', str(list((payoff1, payoff2))))
 
 
@@ -312,14 +312,14 @@ def get_neighbours(player: Player):
     # Depending on the treatment use a different neighbour matrix from Constants
     list_neighbours = player.get_others_in_subsession()
     treatment = {}
-    if player.control_id == 1:
-        treatment = Constants.treatment_c
-    elif player.treatment_id == 1:
+    if player.treatment_id == 1:
         treatment = Constants.treatment_t
     elif player.treatment_id == 2:
         treatment = Constants.treatment_2
     elif player.treatment_id == 3:
         treatment = Constants.treatment_3
+    elif player.treatment_id == 4:
+        treatment = Constants.treatment_4
     neighbours = []
     # Returns the neighbours as participant objects for future use
     for neighbour_id in treatment[player.participant.id_in_session]:
@@ -332,11 +332,13 @@ def get_neighbours(player: Player):
 def get_known_opponents(player: Player):
     # Uses previous opponents to build a list of known opponents to limit allocation of player rating
     all_other_players_labels = get_other_players(player)['all_other_players_labels']
-    opponent_list = []
     known_list = []
-    for p in player.in_all_rounds():
-        opponent_list.append(p.opponents.split(",")[0])
-        opponent_list.append(p.opponents.split(",")[1])
+    # Adds all previous opponents
+    # opponent_list = []
+    # for p in player.in_all_rounds():
+    #    opponent_list.append(p.opponents.split(",")[0])
+    #    opponent_list.append(p.opponents.split(",")[1])
+    opponent_list = [player.opponents.split(",")[0], player.opponents.split(",")[1]]
     for i in all_other_players_labels:
         for j in opponent_list:
             if i == j:
@@ -395,7 +397,7 @@ def set_received_rating(player: Player):
     all_other_players_labels = get_other_players(player)['all_other_players_labels']
     if player.round_number >= Constants.round_share_start:
         # For 2-neighbour treatment collects values from both neighbours
-        if player.treatment_id <= 2:
+        if player.n_neighbours == 2:
             n1 = neighbours[0]
             n2 = neighbours[1]
             if n1.shared_ratings == '':
@@ -427,7 +429,7 @@ def set_received_rating(player: Player):
                 p_received_ratings.append('')
                 tracker = tracker + 1
         # For 3-neighbour treatment collects values from all 3 neighbours
-        elif player.treatment_id == 3:
+        elif player.n_neighbours == 3:
             n1 = neighbours[0]
             n2 = neighbours[1]
             n3 = neighbours[2]
@@ -485,6 +487,15 @@ class Introduction(Page):
 
 class GroupWaitPage(WaitPage):
     wait_for_all_groups = True
+    html_text = "<h4>Instructions for the next page</h3>" \
+                "<p>These instructions are available at the bottom of each page for reference.</p>" \
+                "<p>With both of your pairs, you face the following decision. You can choose from two options: these two options are indicated with X and Y.</p>" \
+                "<p>The amount that you earn in this round does not depend only on your decision, but on the decision of your partners as well.</p>"\
+                "<p>If your partners run out of time, it is considered as they have chosen <b>Y</b></p>"\
+                "<h4>Bonus Payment</h4>" \
+                "<p>Each round is important for your final bonus. By using a random number generator we will select 4 rounds.</p><p>The average of your earnings in these 4 rounds will be used to calculate your final bonus.</p>"
+    title_text = "Waiting for other players..."
+    body_text = html_text
     after_all_players_arrive = 'round_setup'
 
 
@@ -495,17 +506,16 @@ class Decision(Page):
 
     def vars_for_template(player: Player):
         # Runs all the functions we need to get the vars we need for the template (includes debug atm)
-        if player.treatment_id <= 2:
+        if player.n_neighbours == 2:
             neighbour1 = get_neighbours(player)[0].participant.label
             neighbour2 = get_neighbours(player)[1].participant.label
             neighbour3 = ''
-        elif player.treatment_id == 3:
+        elif player.n_neighbours == 3:
             neighbour1 = get_neighbours(player)[0].participant.label
             neighbour2 = get_neighbours(player)[1].participant.label
             neighbour3 = get_neighbours(player)[2].participant.label
 
         all_other_players_labels = get_other_players(player)['all_other_players_labels']
-        disable_list = get_known_opponents(player)
         base_rating_list = get_base_ratings(player)
 
         if player.my_ratings == '' and player.round_number > 1:
@@ -520,21 +530,6 @@ class Decision(Page):
             neighbour1=neighbour1,
             neighbour2=neighbour2,
             neighbour3=neighbour3,
-            other_player01_disable=disable_list[0],
-            other_player02_disable=disable_list[1],
-            other_player03_disable=disable_list[2],
-            other_player04_disable=disable_list[3],
-            other_player05_disable=disable_list[4],
-            other_player06_disable=disable_list[5],
-            other_player07_disable=disable_list[6],
-            other_player08_disable=disable_list[7],
-            other_player09_disable=disable_list[8],
-            other_player10_disable=disable_list[9],
-            other_player12_disable=disable_list[11],
-            other_player11_disable=disable_list[10],
-            other_player13_disable=disable_list[12],
-            other_player14_disable=disable_list[13],
-            other_player15_disable=disable_list[14],
             other_player01_base=base_rating_list[0],
             other_player02_base=base_rating_list[1],
             other_player03_base=base_rating_list[2],
@@ -617,6 +612,14 @@ class Decision(Page):
 
 class ResultsWaitPage(WaitPage):
     wait_for_all_groups = True
+    html_text = "<h4>Instructions for the next page</h3>" \
+                "<p>These instructions are available at the bottom of each page for reference.</p>" \
+                "<p>After you are shown the result of the game you will have the opportunity to rate other players on a scale from 0 to 10 according to how much you trust them.</p>" \
+                "<p>By default, the neutral value of 5 is set to everyone. In this step others can also evaluate your trustworthiness.</p>" \
+                "<h4>Bonus Payment</h4>" \
+                "<p>Each round is important for your final bonus. By using a random number generator we will select 4 rounds.</p><p> The average of your earnings in these 4 rounds will be used to calculate your final bonus.</p>"
+    title_text = "Waiting for other players..."
+    body_text = html_text
     # Calculates payoff, uses timeout_happened check from previous page
     after_all_players_arrive = 'set_payoffs'
 
@@ -628,11 +631,11 @@ class Results(Page):
 
     def vars_for_template(player: Player):
         # Runs all the functions we need to get the vars we need for the template (includes debug atm)
-        if player.treatment_id <= 2:
+        if player.n_neighbours == 2:
             neighbour1 = get_neighbours(player)[0].participant.label
             neighbour2 = get_neighbours(player)[1].participant.label
             neighbour3 = ''
-        elif player.treatment_id == 3:
+        elif player.n_neighbours == 3:
             neighbour1 = get_neighbours(player)[0].participant.label
             neighbour2 = get_neighbours(player)[1].participant.label
             neighbour3 = get_neighbours(player)[2].participant.label
@@ -756,8 +759,20 @@ class Results(Page):
 
 class SharingWaitPage(WaitPage):
     wait_for_all_groups = True
+    html_text = "<h4>Instructions for the next page</h3>" \
+                "<p>These instructions are available at the bottom of each page for reference.</p>" \
+                "<p>From now on you can share your rating with the randomly selected players who are now your communication partners until the end of the experiment.</p>" \
+                "<p>You can choose to share your ratings with themDepending on what your communication partners he ratings you received from your communication partners will appear on your screen.</p>" \
+                "<p>Depending on what information your partners share, you may have the opportunity to change your ratings you allocated previously.</p>" \
+                "<h4>Bonus Payment</h4>" \
+                "<p>Each round is important for your final bonus. By using a random number generator we will select 4 rounds.</p><p> The average of your earnings in these 4 rounds will be used to calculate your final bonus.</p>"
+    title_text = "Waiting for other players..."
+    body_text = html_text
     # Before the next round starts it sets the player.received_ratings for all players
     after_all_players_arrive = 'set_ratings'
+    def is_displayed(self):
+        return self.round_number >= Constants.round_share_start
+
 
 
 class Sharing(Page):
@@ -768,11 +783,11 @@ class Sharing(Page):
         return self.round_number >= Constants.round_share_start
     def vars_for_template(player: Player):
         # Runs all the functions we need to get the vars we need for the template (includes debug atm)
-        if player.treatment_id <= 2:
+        if player.n_neighbours == 2:
             neighbour1 = get_neighbours(player)[0].participant.label
             neighbour2 = get_neighbours(player)[1].participant.label
             neighbour3 = ''
-        elif player.treatment_id == 3:
+        elif player.n_neighbours == 3:
             neighbour1 = get_neighbours(player)[0].participant.label
             neighbour2 = get_neighbours(player)[1].participant.label
             neighbour3 = get_neighbours(player)[2].participant.label
@@ -780,7 +795,7 @@ class Sharing(Page):
         if player.round_number == 10:
             earnings = get_earnings(player)
             player.participant.payoff = earnings
-            player.participant.vars['p1_earnings'] = earnings
+            player.participant.vars['reward_p1'] = earnings
 
         all_other_players_labels = get_other_players(player)['all_other_players_labels']
         opponent1 = get_opponents(player)[0]
@@ -796,6 +811,15 @@ class Sharing(Page):
             else:
                 shared_rating_list.append(i)
 
+        n = 0
+        disable_list = []
+        while n < 15:
+            if player.received_ratings.split(",")[n::15] == ['-2', '-2', '-2'] or player.received_ratings.split(",")[n::15] == ['-1','-1','-1']:
+                disable_list.append('disabled')
+            else:
+                disable_list.append('')
+
+
         if player.my_ratings == '' and player.round_number > 1:
             if player.in_round(player.round_number - 1).my_ratings == '':
                 player.my_ratings = '5,5,5,5,5,5,5,5,5,5,5,5,5,5,5'
@@ -808,6 +832,21 @@ class Sharing(Page):
             neighbour1=neighbour1,
             neighbour2=neighbour2,
             neighbour3=neighbour3,
+            other_player01_disable=disable_list[0],
+            other_player02_disable=disable_list[1],
+            other_player03_disable=disable_list[2],
+            other_player04_disable=disable_list[3],
+            other_player05_disable=disable_list[4],
+            other_player06_disable=disable_list[5],
+            other_player07_disable=disable_list[6],
+            other_player08_disable=disable_list[7],
+            other_player09_disable=disable_list[8],
+            other_player10_disable=disable_list[9],
+            other_player12_disable=disable_list[11],
+            other_player11_disable=disable_list[10],
+            other_player13_disable=disable_list[12],
+            other_player14_disable=disable_list[13],
+            other_player15_disable=disable_list[14],
         )
 
         ratings_dict = dict(
@@ -925,8 +964,4 @@ class Sharing(Page):
             player.timed_out = player.timed_out + '0'
 
 
-class EndWaitPage(WaitPage):
-    wait_for_all_groups = True
-
-
-page_sequence = [Introduction, GroupWaitPage, Decision, ResultsWaitPage, Results, SharingWaitPage, Sharing, EndWaitPage]
+page_sequence = [Introduction, GroupWaitPage, Decision, ResultsWaitPage, Results, SharingWaitPage, Sharing]

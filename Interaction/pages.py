@@ -28,7 +28,6 @@ class Step1(Page):
         diff_answers_s2 = self.player.comp_survey2(1)
         diff_answers_s3_6 = self.player.get_survey3_6_diff(1)
         p_names = self.player.get_p_names(my_parterners_id)
-        my_name = self.player.participant.vars['name']
 
         vars_dict = dict(
                 my_id = self.player.id_in_group,
@@ -37,8 +36,7 @@ class Step1(Page):
                 l_p1_diff_answers_s2 = len(diff_answers_s2[0]),
                 p1_diff_answers_s3_6 = diff_answers_s3_6[0],
                 l_p1_diff_answers_s3_6 = len(diff_answers_s3_6[0]),
-                p1_name = p_names[0],
-                my_name = my_name
+                p1_name = p_names[0]
                 )
         
         if num_p != 1:
@@ -114,7 +112,6 @@ class Step2_1(Page):
         all_answers = self.player.get_all_answers(2)
         my_answer = all_answers[0]
         p_answers = all_answers[1]
-        self.player.participant.vars['opinions_display'].append(p_answers)
 
         p_names = self.player.get_p_names(my_parterners_id_step2)
 
@@ -199,7 +196,6 @@ class Step2_2(Page):
         all_answers = self.player.get_all_answers(2)
         my_answer = all_answers[0]
         p_answers = all_answers[1]
-        self.player.participant.vars['opinions_display'].append(p_answers)
         p_names = self.player.get_p_names(my_parterners_id)
 
         vars_dict = dict(
@@ -359,7 +355,6 @@ class Step2_4(Page):
         all_answers = self.player.get_all_answers(2)
         my_answer = all_answers[0]
         p_answers = all_answers[1]
-        self.player.participant.vars['opinions_display'].append(p_answers)
 
         vars_dict = dict(
             my_answer = my_answer,
@@ -532,7 +527,6 @@ class Step3_1(Page):
         all_answers = self.player.get_all_answers(3)
         my_answer = all_answers[0]
         p_answers = all_answers[1]
-        self.player.participant.vars['opinions_display'].append(p_answers)
 
         likability = self.player.get_likability(my_parterners_id_step3)
 
@@ -605,7 +599,6 @@ class Step3_2(Page):
         all_answers = self.player.get_all_answers(3)
         my_answer = all_answers[0]
         p_answers = all_answers[1]
-        self.player.participant.vars['opinions_display'].append(p_answers)
 
         vars_dict = dict(
             my_answer = my_answer,
@@ -718,15 +711,15 @@ class Do_payoff(WaitPage):
     
     after_all_players_arrive ='do_payoff'
 
-# class Payoff(Page):
-#     def is_displayed(self):
-#         return self.round_number == Constants.num_rounds
+class Payoff(Page):
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
     
-#     def vars_for_template(self):
-#         return dict(
-#             my_payoff = self.player.payoff,
-#             drop_out = self.player.participant.vars["is_dropout"]
-#         )
+    def vars_for_template(self):
+        return dict(
+            my_payoff = self.player.payoff,
+            drop_out = self.player.participant.vars["is_dropout"]
+        )
 
 class Dropout_check(Page):
     def is_displayed(self):
@@ -754,5 +747,5 @@ class Dropout_check(Page):
 page_sequence = [MatchingWaitPage, Step1, Dropout_check, Step2_1, Dropout_check, PreMessageWait_step2_1, Step2_2, 
     Dropout_check, MessageWait_step2_1, Step2_3, Dropout_check, PreMessageWait_step2_2, Step2_4, Dropout_check, 
     MessageWait_step2_2, Step2_5, Dropout_check, PreMessageWait_step2_3, Step3_1, Dropout_check, PreMessageWait_step3, Step3_2, 
-    Dropout_check, MessageWait_step3, Step3_3, Do_payoff]
+    Dropout_check, MessageWait_step3, Step3_3, Do_payoff, Payoff]
 #MatchingWaitPage, 

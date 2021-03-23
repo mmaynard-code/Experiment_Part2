@@ -78,7 +78,7 @@
                 <div class="col">
                     <p><b>{{neighbour2}}</b> shared these ratings with you:</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p><b>{{neighbour3}}</b> shared these ratings with you:</p>
                 </div>
@@ -95,7 +95,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer01range"
-                           value="{{other_player01_rank}}">
+                           value="{{other_player01_rank}}" {{other_player01_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -117,7 +117,7 @@
                 <div class="col">
                     <p>{{other_player01_n2rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player01_n3rating}}</p>
                 </div>
@@ -135,7 +135,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer02range"
-                           value="{{other_player02_rank}}">
+                           value="{{other_player02_rank}}" {{other_player02_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -157,7 +157,7 @@
                 <div class="col">
                     <p>{{other_player02_n2rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player02_n3rating}}</p>
                 </div>
@@ -176,7 +176,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer03range"
-                           value="{{other_player03_rank}}">
+                           value="{{other_player03_rank}}" {{other_player03_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -198,7 +198,7 @@
                 <div class="col">
                     <p>{{other_player03_n2rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player03_n3rating}}</p>
                 </div>
@@ -216,7 +216,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer04range"
-                           value="{{other_player04_rank}}">
+                           value="{{other_player04_rank}}" {{other_player04_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -238,7 +238,7 @@
                 <div class="col">
                     <p>{{other_player04_n2rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player04_n3rating}}</p>
                 </div>
@@ -256,7 +256,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer05range"
-                           value="{{other_player05_rank}}">
+                           value="{{other_player05_rank}}" {{other_player05_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -278,7 +278,7 @@
                 <div class="col">
                     <p>{{other_player05_n2rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player05_n3rating}}</p>
                 </div>
@@ -296,7 +296,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer06range"
-                           value="{{other_player06_rank}}">
+                           value="{{other_player06_rank}}" {{other_player06_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -318,7 +318,7 @@
                 <div class="col">
                     <p>{{other_player06_n2rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player06_n3rating}}</p>
                 </div>
@@ -336,7 +336,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer07range"
-                           value="{{other_player07_rank}}">
+                           value="{{other_player07_rank}}" {{other_player07_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -358,7 +358,7 @@
                 <div class="col">
                     <p>{{other_player07_n2rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player07_n3rating}}</p>
                 </div>
@@ -376,7 +376,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer08range"
-                           value="{{other_player08_rank}}">
+                           value="{{other_player08_rank}}" {{other_player08_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -398,7 +398,7 @@
                 <div class="col">
                     <p>{{other_player08_n2rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player08_n1rating}}</p>
                 </div>
@@ -416,7 +416,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer09range"
-                           value="{{other_player09_rank}}">
+                           value="{{other_player09_rank}}" {{other_player09_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -438,7 +438,7 @@
                 <div class="col">
                     <p>{{other_player09_n1rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player09_n1rating}}</p>
                 </div>
@@ -456,7 +456,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer10range"
-                           value="{{other_player10_rank}}">
+                           value="{{other_player10_rank}}" {{other_player10_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -478,7 +478,7 @@
                 <div class="col">
                     <p>{{other_player10_n1rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player10_n1rating}}</p>
                 </div>
@@ -496,7 +496,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer11range"
-                           value="{{other_player11_rank}}">
+                           value="{{other_player11_rank}}" {{other_player11_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -518,7 +518,7 @@
                 <div class="col">
                     <p>{{other_player11_n1rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player11_n1rating}}</p>
                 </div>
@@ -536,7 +536,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer12range"
-                           value="{{other_player12_rank}}">
+                           value="{{other_player12_rank}}" {{other_player12_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -558,7 +558,7 @@
                 <div class="col">
                     <p>{{other_player12_n1rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player12_n1rating}}</p>
                 </div>
@@ -576,7 +576,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer13range"
-                           value="{{other_player13_rank}}">
+                           value="{{other_player13_rank}}" {{other_player13_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -598,7 +598,7 @@
                 <div class="col">
                     <p>{{other_player13_n1rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player13_n1rating}}</p>
                 </div>
@@ -616,7 +616,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer14range"
-                           value="{{other_player14_rank}}">
+                           value="{{other_player14_rank}}" {{other_player14_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -638,7 +638,7 @@
                 <div class="col">
                     <p>{{other_player14_n1rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player14_n1rating}}</p>
                 </div>
@@ -656,7 +656,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer15range"
-                           value="{{other_player15_rank}}">
+                           value="{{other_player15_rank}}" {{other_player15_disable}}>
                 </div>
                 <div class="col-1">
                      10
@@ -678,7 +678,7 @@
                 <div class="col">
                     <p>{{other_player15_n1rating}}</p>
                 </div>
-                {% if subsession.treatment_id == 3 %}
+                {% if subsession.n_neighbours == 3 %}
                 <div class="col">
                     <p>{{other_player15_n1rating}}</p>
                 </div>
@@ -699,9 +699,6 @@
     <h3>
         Instructions
     </h3>
-
-    <link rel="stylesheet" type="text/css"
-          href="{% static 'global/matrix.css' %}"/>
 
     <h3>
         The game
@@ -752,9 +749,8 @@
         Update Ratings
     </h3>
     <p>
-        After all evaluation have been sent, the ratings you received from your communication partners will
-        appear on your screen. At this stage, you have the opportunity again to change the points you allocated
-        previously, including those scores about whom you obtained information.
+        After all evaluation have been sent, the ratings you received from your communication partners will appear on your screen.
+        At this stage, you have the opportunity again to change the points you allocated previously, including those scores about whom you obtained information.
     </p>
 </div>
 </div>
