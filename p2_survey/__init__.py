@@ -23,12 +23,6 @@ class Group(BaseGroup):
     pass
 
 
-def set_gdpr_all(group: Group):
-    # Sets the payoff by group for all the players in the group
-    for p in group.get_players():
-        set_gdpr(p)
-
-
 class Player(BasePlayer):
     p2_impressions_underst = models.StringField(
         choices=[['5', 'Completely'], ['4', 'Mostly'], ['3', 'Only the basics'], ['2', 'Rather unclear'],
@@ -48,6 +42,7 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect
     )
     p2_impressions_expbefore = models.BooleanField(
+        choices=[[True, 'Yes'], [False, 'No']],
         label="Have you ever participated in an experiment like this?",
         widget=widgets.RadioSelectHorizontal
     )
@@ -145,14 +140,20 @@ class Player(BasePlayer):
 
 # FUNCTIONS
 # PAGES
-class GDPRConsent(Page):
+class Impressions(Page):
+    timeout_seconds = 160
     form_model = 'player'
-    form_fields = ['gdpr_mturk', 'gdpr_ip']
+    form_fields = ['p2_impressions_underst', 'p2_impressions_mood', 'p2_impressions_exhaust', 'p2_impressions_expbefore']
     @staticmethod
     def vars_for_template(player: Player):
         participant = player.participant
 
-class GDPRWaitPage(WaitPage):
-    after_all_players_arrive = 'set_gdpr_all'
+class Opinions(Page):
+    timeout_seconds = 400
+    form_model = 'player'
+    form_fields = ['p2_opinions_invloed', 'p2_opinions_recipr', 'p2_opinions_msginf', 'p2_opinions_consist', 'p2_opinions_bestans', 'p2_opinions_opinlike', 'p2_opinions_shiftlike', 'p2_opinions_msglike', 'p2_opinions_timelike', 'p2_opinions_conslike']
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
 
-page_sequence = [GDPRConsent, GDPRWaitPage]
+page_sequence = [Impressions, Opinions]

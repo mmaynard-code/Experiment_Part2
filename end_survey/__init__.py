@@ -23,12 +23,6 @@ class Group(BaseGroup):
     pass
 
 
-def set_gdpr_all(group: Group):
-    # Sets the payoff by group for all the players in the group
-    for p in group.get_players():
-        set_gdpr(p)
-
-
 class Player(BasePlayer):
     end_personal_communicative = models.StringField(
         choices=[['1', 'I speak much less than others'],
@@ -206,19 +200,13 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect
     )
     end_personal_birthyear = models.StringField(
-        choices=[['Female', 'Female'],
-                 ['Male', 'Male'],
-                 ['Other', 'Other']],
-        label="In which year were you born?",
-        widget=widgets.RadioSelect
+        label="In which year were you born?"
     )
     end_personal_lang = models.StringField(
-        label="What is your first language?",
-        widget=widgets.RadioSelect
+        label="What is your first language?"
     )
     end_personal_religion = models.StringField(
-        label="Which religious denomination do you belong to?",
-        widget=widgets.RadioSelect
+        label="Which religious denomination do you belong to?"
     )
     end_personal_employment = models.StringField(
         choices=[['a', 'I worked full-time for salary or profit in the last week'],
@@ -259,14 +247,44 @@ class Player(BasePlayer):
 
 # FUNCTIONS
 # PAGES
-class GDPRConsent(Page):
+class Impressions(Page):
+    timeout_seconds = 120
     form_model = 'player'
-    form_fields = ['gdpr_mturk', 'gdpr_ip']
+    form_fields = ['end_personal_communicative', 'end_personal_smile', 'end_personal_riskpref']
     @staticmethod
     def vars_for_template(player: Player):
         participant = player.participant
 
-class GDPRWaitPage(WaitPage):
-    after_all_players_arrive = 'set_gdpr_all'
+class Hypothetical1(Page):
+    timeout_seconds = 240
+    form_model = 'player'
+    form_fields = ['end_personal_reciprocity1', 'end_personal_reciprocity2', 'end_personal_reciprocity3', 'end_personal_reciprocity4', 'end_personal_reciprocity5', 'end_personal_reciprocity6']
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
 
-page_sequence = [GDPRConsent, GDPRWaitPage]
+class Hypothetical2(Page):
+    timeout_seconds = 240
+    form_model = 'player'
+    form_fields = ['end_personal_genreciprocity1', 'end_personal_genreciprocity2', 'end_personal_genreciprocity3', 'end_personal_genreciprocity4', 'end_personal_genreciprocity5', 'end_personal_genreciprocity6']
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
+
+class Hypothetical3(Page):
+    timeout_seconds = 240
+    form_model = 'player'
+    form_fields = ['end_personal_indreciprocity1', 'end_personal_indreciprocity2', 'end_personal_indreciprocity3', 'end_personal_indreciprocity4', 'end_personal_indreciprocity5', 'end_personal_indreciprocity6']
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
+
+class Demographic(Page):
+    timeout_seconds = 320
+    form_model = 'player'
+    form_fields = ['end_personal_gender', 'end_personal_birthyear', 'end_personal_lang', 'end_personal_religion', 'end_personal_employment', 'end_personal_education', 'end_personal_motheredu', 'end_personal_fatheredu']
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
+
+page_sequence = [Impressions, Hypothetical1, Hypothetical2, Hypothetical3, Demographic]

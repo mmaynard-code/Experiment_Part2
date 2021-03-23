@@ -23,12 +23,6 @@ class Group(BaseGroup):
     pass
 
 
-def set_gdpr_all(group: Group):
-    # Sets the payoff by group for all the players in the group
-    for p in group.get_players():
-        set_gdpr(p)
-
-
 class Player(BasePlayer):
     p1_impressions_underst = models.StringField(
         choices=[['5', 'Completely'], ['4', 'Mostly'], ['3', 'Only the basics'], ['2', 'Rather unclear'], ['1', 'All Greek to me']],
@@ -46,6 +40,7 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect
     )
     p1_impressions_expbefore = models.BooleanField(
+        choices=[[True, 'Yes'],[False, 'No']],
         label="Have you ever participated in an experiment like this?",
         widget=widgets.RadioSelectHorizontal
     )
@@ -101,67 +96,32 @@ class Player(BasePlayer):
         label="To what extent did the X/Y decisions you observed characterise your scoring decisions during the experiment?",
         widget=widgets.RadioSelect
     )
-    p1_scoring_givepointgos = models.StringField(
-        choices=[['1', "Messages I received from others did not play a role at all in my scoring decisions"], ['2', ''],
-                 ['3', ''], ['4', ''], ['5', ''], ['6', ''],
-                 ['7', 'Messages I received from others played a very important role in my scoring decisions']],
-        label="To what extent did the information you received characterise your scoring decisions during the experiment?",
-        widget=widgets.RadioSelect
-    )
-    p1_messages_surprise = models.StringField(
-        choices=[['1', "The messages I received were never surprising at all"], ['2', ''],
-                 ['3', ''], ['4', ''], ['5', ''], ['6', ''],
-                 ['7', 'The messages I received were always very surprising']],
-        label="How surprising were the messages you received?",
-        widget=widgets.RadioSelect
-    )
-    p1_messages_reasons = models.LongStringField(
-        label="What reasons influenced whether you sent any messages to others during the experiment?"
-    )
-    p1_messages_intent = models.StringField(
-        choices=[['1', "I decided randomly whether I sent a message or not"], ['2', ''], ['3', ''], ['4', ''], ['5', ''], ['6', ''],
-                 ['7', 'I decided carefully whether I sent a message or not']],
-        label="Please select one of the options below that best characterised your decisions to send messages during the experiment",
-        widget=widgets.RadioSelect
-    )
-    p1_scoring_objobs = models.StringField(
-        choices=[['1', "Opinion scores I observed did not play a role at all in my messaging decisions"], ['2', ''],
-                 ['3', ''], ['4', ''], ['5', ''], ['6', ''],
-                 ['7', 'Opinion scores I observed played a very important role in my messaging decisions']],
-        label="To what extent did the opinion scores you observed characterise your decisions to send messages during the experiment?",
-        widget=widgets.RadioSelect
-    )
-    p1_scoring_gosgos = models.StringField(
-        choices=[['1', "Messages I received from others did not play a role at all in my messaging decisions"], ['2', ''],
-                 ['3', ''], ['4', ''], ['5', ''], ['6', ''],
-                 ['7', 'Messages I received from others played a very important role in my messaging decisions']],
-        label="To what extent did the messages you received from others characterise your decisions to send messages during the experiment?",
-        widget=widgets.RadioSelect
-    )
-    p1_messages_gosefficiency = models.BooleanField(
-        label="Do you feel that you were able to influence others with your messages?",
-        widget=widgets.RadioSelectHorizontal
-    )
-    p1_messages_gospunish = models.StringField(
-        choices=[['1', "I never intended my messages as punishment"],
-                 ['2', ''],
-                 ['3', ''], ['4', ''], ['5', ''], ['6', ''],
-                 ['7', 'I always intended my messages as punishment']],
-        label="To what extent did the use of message as punishment characterise your decisions to send messages during the experiment?",
-        widget=widgets.RadioSelect
-    )
 
 
 # FUNCTIONS
 # PAGES
-class GDPRConsent(Page):
+class Impressions(Page):
+    timeout_seconds = 160
     form_model = 'player'
-    form_fields = ['gdpr_mturk', 'gdpr_ip']
+    form_fields = ['p1_impressions_underst', 'p1_impressions_mood', 'p1_impressions_exhaust', 'p1_impressions_expbefore']
     @staticmethod
     def vars_for_template(player: Player):
         participant = player.participant
 
-class GDPRWaitPage(WaitPage):
-    after_all_players_arrive = 'set_gdpr_all'
+class Decisions(Page):
+    timeout_seconds = 240
+    form_model = 'player'
+    form_fields = ['p1_decisions_intent', 'p1_decisions_reasons', 'p1_decisions_tftimportance', 'p1_decisions_repimportance', 'p1_decisions_gosimportance', 'p1_decisions_trustcoop']
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
 
-page_sequence = [GDPRConsent, GDPRWaitPage]
+class Scoring(Page):
+    timeout_seconds = 120
+    form_model = 'player'
+    form_fields = ['p1_scoring_intent', 'p1_scoring_reasons', 'p1_scoring_givepointobs']
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
+
+page_sequence = [Impressions, Decisions, Scoring]

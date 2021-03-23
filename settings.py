@@ -3,6 +3,12 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
+        name="Pre_Post_Surveys",
+        display_name="prepostsurveys",
+        app_sequence=['p1_survey', 'p2_survey', 'end_survey'],
+        num_demo_participants=1
+    ),
+    dict(
         name="Part1",
         display_name="part1",
         app_sequence=['Game', 'payment_info'],
@@ -45,7 +51,15 @@ ROOMS = [
     dict(
         name="session1",
         display_name="session1",
-    )
+    ),
+    dict(
+        name="session2",
+        display_name="session2",
+    ),
+    dict(
+        name="session3",
+        display_name="session3",
+    ),
 ]
 
 ADMIN_USERNAME = 'admin'
