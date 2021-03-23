@@ -79,7 +79,7 @@
         <div class="col">
             {% if subsession.round_number >= Constants.round_share_start %}
             <p>You have been randomly matched with <b>{{subsession.n_neighbours}}</b> partners, and will remain matched with them for the remaining rounds of the game.</p>
-            <p>You can share your ratings of other players.</p>
+            <p>You can share your ratings of other players you have played with.</p>
             {% else %}
             {% endif %}
             <input type="hidden" name="shared_ratings" id="shared_ratings"/>
@@ -124,7 +124,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer01range"
-                           value="{{other_player01_rank}}" {{other_player01_disable}}>
+                           value="{{other_player01_rank}}" {{other_player01_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -182,7 +182,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer02range"
-                           value="{{other_player02_rank}}" {{other_player02_disable}}>
+                           value="{{other_player02_rank}}" {{other_player02_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -241,7 +241,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer03range"
-                           value="{{other_player03_rank}}" {{other_player03_disable}}>
+                           value="{{other_player03_rank}}" {{other_player03_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -299,7 +299,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer04range"
-                           value="{{other_player04_rank}}" {{other_player04_disable}}>
+                           value="{{other_player04_rank}}" {{other_player04_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -357,7 +357,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer05range"
-                           value="{{other_player05_rank}}" {{other_player05_disable}}>
+                           value="{{other_player05_rank}}" {{other_player05_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -415,7 +415,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer06range"
-                           value="{{other_player06_rank}}" {{other_player06_disable}}>
+                           value="{{other_player06_rank}}" {{other_player06_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -473,7 +473,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer07range"
-                           value="{{other_player07_rank}}" {{other_player07_disable}}>
+                           value="{{other_player07_rank}}" {{other_player07_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -531,7 +531,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer08range"
-                           value="{{other_player08_rank}}" {{other_player08_disable}}>
+                           value="{{other_player08_rank}}" {{other_player08_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -589,7 +589,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer09range"
-                           value="{{other_player09_rank}}" {{other_player09_disable}}>
+                           value="{{other_player09_rank}}" {{other_player09_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -647,7 +647,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer10range"
-                           value="{{other_player10_rank}}" {{other_player10_disable}}>
+                           value="{{other_player10_rank}}" {{other_player10_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -705,7 +705,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer11range"
-                           value="{{other_player11_rank}}" {{other_player11_disable}}>
+                           value="{{other_player11_rank}}" {{other_player11_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -763,7 +763,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer12range"
-                           value="{{other_player12_rank}}" {{other_player12_disable}}>
+                           value="{{other_player12_rank}}" {{other_player12_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -821,7 +821,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer13range"
-                           value="{{other_player13_rank}}" {{other_player13_disable}}>
+                           value="{{other_player13_rank}}" {{other_player13_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -879,7 +879,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer14range"
-                           value="{{other_player14_rank}}" {{other_player14_disable}}>
+                           value="{{other_player14_rank}}" {{other_player14_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -937,7 +937,7 @@
                 <div class="col-8">
                     <input type="range" class="form-range" min="{{Constants.min_reputation}}"
                            max="{{Constants.max_reputation}}" step="1" id="otherplayer15range"
-                           value="{{other_player15_rank}}" {{other_player15_disable}}>
+                           value="{{other_player15_rank}}" {{other_player15_disable_rate}}>
                 </div>
                 <div class="col-1">
                      10
@@ -1028,15 +1028,7 @@
     <h3>
         Rating others
     </h3>
-    <p>
-        After you are shown the result of the game you will have the opportunity to rate other players on a
-        scale from 0 to 10 according to how much you trust them. In a given round, you can only rate those who
-        you have already met in one of the games up to the round you are in. By default, the neutral value of 5
-        is set to everyone. In this step others can also evaluate your trustworthiness.
-        In the first five rounds, these two elements (game, rating) are repeated five times, but in Round 6 we
-        are going to introduce a new element: thereafter you will have the opportunity to share your rating with
-        other players.
-    </p>
+
 </div>
 </div>
 

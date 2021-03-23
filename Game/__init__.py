@@ -19,7 +19,7 @@ class Constants(BaseConstants):
         ["Altair", "Birtum", "Ceres", "Deneb", "Enki", "Faumea", "Ganymede", "Hadar", "Indus", "Kestas",
          "Lahar", "Meissa", "Nirah", "Oizys", "Phobos", "Rhapso", "Sedna", "Thesan", "Usil", "Vanth"])
     # Used to control the start of rating sharings
-    round_share_start = 6
+    round_share_start = 2
 
     # Payoff values
     betray_payoff = c(6)
@@ -78,6 +78,7 @@ class Player(BasePlayer):
     n_neighbours = models.IntegerField()
     treatment_id = models.IntegerField()
     opponents = models.StringField()
+    other_players = models.StringField()
     payoffs = models.StringField()
     error_out = models.IntegerField(
         initial=0)
@@ -333,12 +334,11 @@ def get_known_opponents(player: Player):
     # Uses previous opponents to build a list of known opponents to limit allocation of player rating
     all_other_players_labels = get_other_players(player)['all_other_players_labels']
     known_list = []
-    # Adds all previous opponents
-    # opponent_list = []
-    # for p in player.in_all_rounds():
-    #    opponent_list.append(p.opponents.split(",")[0])
-    #    opponent_list.append(p.opponents.split(",")[1])
-    opponent_list = [player.opponents.split(",")[0], player.opponents.split(",")[1]]
+    # Adds all previous opponents to a list
+    opponent_list = []
+    for p in player.in_all_rounds():
+        opponent_list.append(p.opponents.split(",")[0])
+        opponent_list.append(p.opponents.split(",")[1])
     for i in all_other_players_labels:
         for j in opponent_list:
             if i == j:
@@ -380,7 +380,10 @@ def tidy_ratings(player: Player):
         p_ratings = player.my_ratings[0:-1]
     if player.shared_ratings == '' and player.round_number > 1:
         if player.in_round(player.round_number - 1).shared_ratings == '':
-            player.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+            if player.n_neighbours == 2:
+                player.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+            else:
+                player.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
             player.error_out = player.error_out + 1
         else:
             player.shared_ratings = player.in_round(player.round_number - 1).shared_ratings
@@ -401,10 +404,10 @@ def set_received_rating(player: Player):
             n1 = neighbours[0]
             n2 = neighbours[1]
             if n1.shared_ratings == '':
-                n1.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+                n1.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
                 n1.error_out = n1.error_out + 1
             if n2.shared_ratings == '':
-                n2.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+                n2.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
                 n2.error_out = n2.error_out + 1
             n1_shared = n1.shared_ratings.split(",")[0::2]
             n2_shared = n2.shared_ratings.split(",")[1::2]
@@ -426,7 +429,7 @@ def set_received_rating(player: Player):
                         p_received_ratings.append('-2')
             tracker = 0
             while tracker < 15:
-                p_received_ratings.append('')
+                p_received_ratings.append('-2')
                 tracker = tracker + 1
         # For 3-neighbour treatment collects values from all 3 neighbours
         elif player.n_neighbours == 3:
@@ -434,13 +437,13 @@ def set_received_rating(player: Player):
             n2 = neighbours[1]
             n3 = neighbours[2]
             if n1.shared_ratings == '':
-                n1.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+                n1.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
                 n1.error_out = n1.error_out + 1
             if n2.shared_ratings == '':
-                n2.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+                n2.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
                 n2.error_out = n2.error_out + 1
             if n3.shared_ratings == '':
-                n3.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
+                n3.shared_ratings = '-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2'
                 n3.error_out = n3.error_out + 1
             n1_shared = n1.shared_ratings.split(",")[0::3]
             n2_shared = n2.shared_ratings.split(",")[1::3]
@@ -516,6 +519,7 @@ class Decision(Page):
             neighbour3 = get_neighbours(player)[2].participant.label
 
         all_other_players_labels = get_other_players(player)['all_other_players_labels']
+        player.other_players = re.sub(r'[\[\]\' ]', '', str(all_other_players_labels))
         base_rating_list = get_base_ratings(player)
 
         if player.my_ratings == '' and player.round_number > 1:
@@ -614,7 +618,7 @@ class ResultsWaitPage(WaitPage):
     wait_for_all_groups = True
     html_text = "<h4>Instructions for the next page</h3>" \
                 "<p>These instructions are available at the bottom of each page for reference.</p>" \
-                "<p>After you are shown the result of the game you will have the opportunity to rate other players on a scale from 0 to 10 according to how much you trust them.</p>" \
+                "<p>After you are shown the result of the game you will have the opportunity to rate your opponents on a scale from 0 to 10 according to how much you trust them.</p>" \
                 "<p>By default, the neutral value of 5 is set to everyone. In this step others can also evaluate your trustworthiness.</p>" \
                 "<h4>Bonus Payment</h4>" \
                 "<p>Each round is important for your final bonus. By using a random number generator we will select 4 rounds.</p><p> The average of your earnings in these 4 rounds will be used to calculate your final bonus.</p>"
@@ -646,6 +650,15 @@ class Results(Page):
         opponent1 = get_opponents(player)[0]
         opponent2 = get_opponents(player)[1]
 
+        current_list = []
+        current_opponents = [player.opponents.split(",")[0], player.opponents.split(",")[1]]
+        for i in all_other_players_labels:
+            k = "disabled"
+            for j in current_opponents:
+                if j == i:
+                    k = ""
+            current_list.append(k)
+
         if player.my_ratings == '' and player.round_number > 1:
             if player.in_round(player.round_number - 1).my_ratings == '':
                 player.my_ratings = '5,5,5,5,5,5,5,5,5,5,5,5,5,5,5'
@@ -658,6 +671,21 @@ class Results(Page):
             neighbour1=neighbour1,
             neighbour2=neighbour2,
             neighbour3=neighbour3,
+            other_player01_disable_rate=current_list[0],
+            other_player02_disable_rate=current_list[1],
+            other_player03_disable_rate=current_list[2],
+            other_player04_disable_rate=current_list[3],
+            other_player05_disable_rate=current_list[4],
+            other_player06_disable_rate=current_list[5],
+            other_player07_disable_rate=current_list[6],
+            other_player08_disable_rate=current_list[7],
+            other_player09_disable_rate=current_list[8],
+            other_player10_disable_rate=current_list[9],
+            other_player12_disable_rate=current_list[11],
+            other_player11_disable_rate=current_list[10],
+            other_player13_disable_rate=current_list[12],
+            other_player14_disable_rate=current_list[13],
+            other_player15_disable_rate=current_list[14],
             other_player01_disable=disable_list[0],
             other_player02_disable=disable_list[1],
             other_player03_disable=disable_list[2],
@@ -761,8 +789,8 @@ class SharingWaitPage(WaitPage):
     wait_for_all_groups = True
     html_text = "<h4>Instructions for the next page</h3>" \
                 "<p>These instructions are available at the bottom of each page for reference.</p>" \
-                "<p>From now on you can share your rating with the randomly selected players who are now your communication partners until the end of the experiment.</p>" \
-                "<p>You can choose to share your ratings with themDepending on what your communication partners he ratings you received from your communication partners will appear on your screen.</p>" \
+                "<p>From now on you can share your ratings with the randomly selected players who are now your communication partners until the end of the experiment.</p>" \
+                "<p>You can choose to share your ratings with them. The ratings you receive depend on what your communication partners chose to share with you.</p>" \
                 "<p>Depending on what information your partners share, you may have the opportunity to change your ratings you allocated previously.</p>" \
                 "<h4>Bonus Payment</h4>" \
                 "<p>Each round is important for your final bonus. By using a random number generator we will select 4 rounds.</p><p> The average of your earnings in these 4 rounds will be used to calculate your final bonus.</p>"
@@ -776,7 +804,7 @@ class SharingWaitPage(WaitPage):
 
 
 class Sharing(Page):
-    timeout_seconds = 90
+    #timeout_seconds = 90
     form_model = 'player'
     form_fields = ['my_ratings']
     def is_displayed(self):
@@ -814,11 +842,11 @@ class Sharing(Page):
         n = 0
         disable_list = []
         while n < 15:
-            if player.received_ratings.split(",")[n::15] == ['-2', '-2', '-2'] or player.received_ratings.split(",")[n::15] == ['-1','-1','-1']:
+            if shared_rating_list[n::15] == ['-', '-', '-']:
                 disable_list.append('disabled')
             else:
                 disable_list.append('')
-
+            n = n + 1
 
         if player.my_ratings == '' and player.round_number > 1:
             if player.in_round(player.round_number - 1).my_ratings == '':
@@ -828,6 +856,10 @@ class Sharing(Page):
                 player.my_ratings = player.in_round(player.round_number - 1).my_ratings
 
         vars_dict = dict(
+            a0=set_received_rating(player),
+            a1=player.shared_ratings,
+            a2=player.received_ratings,
+            a4=shared_rating_list[0::15],
             # participant information
             neighbour1=neighbour1,
             neighbour2=neighbour2,

@@ -1,0 +1,55 @@
+{% extends "global/Page.html" %}
+
+{% block title %}Consent to data processing{% endblock %}
+{% block content %}
+
+    <div class="panel panel-default" style="margin-bottom:10px">
+        <div class="panel-body">
+            <h3>General Data Protection Regulation Notice</h3>
+            <p>I hereby consent that Linköping University processes my personal data in the form of:</p>
+            <p><i>Amazon Mechanical Turk Worker ID and IP Address</i></p>
+            <p>for the following purpose:</p>
+            <p><i>A social science experiment to study how the order and structure of informal
+            communication affect social interactions</i></p>
+            <h3>Information</h3>
+            <p>Your personal information will be processed in the following way</p>
+            <p><i>To verify unique participants in the experiment. It will be held until
+                the 31 March 2021, the end of the data collection phase of the experiment.
+                It will then be removed from LiU systems and your responses will become anonymous.</i></p>
+            <p>Personal data controller is Linköping University, 581 83 Linköping, corporate identification number 202100-3096.</p>
+            <p>Legal basis for the data processing: Consent.</p>
+            <p>Withdrawal of consent/questions/complaints: If you want withdraw your consent, please contact:
+                Matthew Maynard (<a href = "mailto: matthew.maynard@liu.se">matthew.maynard@liu.se</a>)
+                Liyu Pan (<a href = "mailto: liyu.pan@liu.se">liyu.pan@liu.se</a>)
+                Flora Samu (<a href = "mailto: flora.samu@liu.se">flora.samu@liu.se</a>) or
+                Karoly Takacs (<a href = "mailto: flora.samu@liu.se">flora.samu@liu.se</a>)</p>
+            <p>Your consent will be valid until 31 March 2021. You may withdraw your consent at
+                any time without giving a reason. We will in that case stop using your personal
+                data that we have collected based on your consent. You may request to have your
+                personal data erased, and if you do so, we will erase information about you
+                wherever possible. You have the right to obtain information about your personal
+                data that are processed by Linköping University. You may request this in writing by
+                contacting the registrar’s office at Linköping University, either by email or letter.
+                You also have the right to request that the use of certain of your personal data be limited.</p>
+            <p>If you want to know how your personal data are used, or you believe that we have used
+                your personal data in a way that violates the agreement or current legislation, please
+                contact Linköping University’s data protection officer at dataskyddsombud@liu.se. If
+                you have complaints regarding the way in which Linköping University processes your
+                personal data, you are always entitled to contact the relevant inspection authority,
+                which in this case is the Swedish Data Protection Authority.</p>
+            <p>I hereby consent that Linköping University processes my personal data according to
+                the information above</p>
+            <div class="form-group required">
+                <div class="form-check">
+                    {{ formfield 'gdpr_mturk' }}
+                    {{ formfield 'gdpr_ip' }}
+                </div>
+            </div>
+            {{ next_button }}
+            <p>If you do not wish to give your consent freely, you will not be able to participate in the experiment.</p>
+        </div>
+    </div>
+
+
+{% endblock %}
+
