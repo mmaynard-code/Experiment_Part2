@@ -19,7 +19,7 @@ class Constants(BaseConstants):
         ["Altair", "Birtum", "Ceres", "Deneb", "Enki", "Faumea", "Ganymede", "Hadar", "Indus", "Kestas",
          "Lahar", "Meissa", "Nirah", "Oizys", "Phobos", "Rhapso", "Sedna", "Thesan", "Usil", "Vanth"])
     # Used to control the start of rating sharings
-    round_share_start = 2
+    round_share_start = 6
 
     # Payoff values
     betray_payoff = c(6)
