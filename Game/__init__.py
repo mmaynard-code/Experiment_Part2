@@ -804,7 +804,7 @@ class SharingWaitPage(WaitPage):
 
 
 class Sharing(Page):
-    #timeout_seconds = 90
+    timeout_seconds = 90
     form_model = 'player'
     form_fields = ['my_ratings']
     def is_displayed(self):
