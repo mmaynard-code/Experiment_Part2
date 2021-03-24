@@ -827,7 +827,7 @@ class Sharing(Page):
             neighbour2 = get_neighbours(player)[1].participant.label
             neighbour3 = get_neighbours(player)[2].participant.label
 
-        if player.round_number == 10:
+        if player.round_number == Constants.num_rounds:
             earnings = get_earnings(player)
             player.participant.payoff = earnings
             player.participant.vars['reward_p1'] = earnings
