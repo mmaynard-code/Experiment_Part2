@@ -25,7 +25,19 @@ SESSION_CONFIGS = [
         display_name="payment",
         app_sequence=['payment_info'],
         num_demo_participants=16
-    )
+    ),
+    dict(
+        name="Full_Experiment_surveys",
+        display_name="Full experiment",
+        app_sequence=['gdpr_consent','Game', 'p1_survey', 'Survey', 'Interaction', 'p2_survey', 'end_survey', 'payment_info'],
+        num_demo_participants=16
+    ),
+    dict(
+        name="Full_Experiment_p2",
+        display_name="Full experiment_p2",
+        app_sequence=['gdpr_consent','Survey', 'Interaction', 'p2_survey', 'end_survey', 'payment_info'],
+        num_demo_participants=16
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -34,9 +46,43 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=0.50,
+    real_world_currency_per_point=1,
     participation_fee=15.00,
-    doc=""
+    doc="",
+    mturk_hit_settings=dict(
+        keywords='experiment, game, decision, decision-making, bonus',
+        title='Participate in an online experiment: play a decision-making game',
+        description='Two-hour experiment with an opportunity to earn up to a 50% Bonus reward.',
+        frame_height=500,
+        template='global/mturk_template.html',
+        minutes_allotted_per_assignment=120,
+        expiration_hours=7 * 24,
+        qualification_requirements=[
+                # Only US
+            {
+                'QualificationTypeId': "00000000000000000071",
+                'Comparator': "EqualTo",
+                'LocaleValues': [{'Country': "US"}]
+            },
+            # At least 500 HITs approved
+            {
+                'QualificationTypeId': "00000000000000000040",
+                'Comparator': "GreaterThanOrEqualTo",
+                'IntegerValues': [500]
+            },
+            # At least 95% of HITs approved
+            {
+                'QualificationTypeId': "000000000000000000L0",
+                'Comparator': "GreaterThanOrEqualTo",
+                'IntegerValues': [95]
+            },
+            {
+                'QualificationTypeId': "YOUR_QUALIFICATION_ID_HERE",
+                'Comparator': "DoesNotExist",
+            }
+        ],
+        grant_qualification_id='YOUR_QUALIFICATION_ID_HERE', # to prevent retakes
+    ),
 )
 
 # ISO-639 code
@@ -74,3 +120,7 @@ Here are some oTree games.
 SECRET_KEY = '5716809481966'
 
 INSTALLED_APPS = ['otree']
+
+# setting for integration with AWS Mturk
+AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
