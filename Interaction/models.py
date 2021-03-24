@@ -53,9 +53,10 @@ class Subsession(BaseSubsession):
         for p in self.get_players():
                        
             if self.round_number == 1:                       
-                p.participant.vars['num_timeout'] = 0
-                p.participant.vars['is_dropout'] = False
-                p.participant.vars['check_dropout'] = False
+                # p.participant.vars['num_timeout'] = 0
+                # p.participant.vars['num_dropout'] = False
+                # p.participant.is_dropout = False                
+                # p.participant.vars['check_dropout'] = False
                 p.participant.vars['survey_display1'] = []
                 p.participant.vars['survey_display2'] = []
                 p.participant.vars['opinions_display'] = []
@@ -89,7 +90,8 @@ class Subsession(BaseSubsession):
             name = p.participant.vars['name']
             opinion = p.participant.vars['this_issue']
             my_id = p.id_in_group
-            p.participant.label = str(name)+","+str(group_id)+","+ str(my_id)+","+str(opinion)
+            is_dropout = p.participant.is_dropout
+            p.participant.label = str(name)+","+str(group_id)+","+ str(my_id)+","+str(opinion)+","+str(is_dropout)
 
 
 class Group(BaseGroup):
@@ -367,8 +369,12 @@ class Player(BasePlayer):
     message_step3_3 = message()
 
 def custom_export(players):
-    yield ['session', 'participant_code', 'round_number', 'idd_in_group', 'timeout', "surv_display1", 'surv_display2', 'op_display']
+    yield ['session', 'issues_list','participant_code', 'round_number', 'idd_in_group', 'dropout_round','num_timeout', "surv_display1", 'surv_display2', 'op_display']
     for p in players:
-        yield [p.session.code, p.participant.code, p.round_number, p.id_in_group, 
-            p.participant.vars.get('is_dropout', None), p.participant.vars.get('survey_display1', None),
-            p.participant.vars.get('survey_display2', None), p.participant.vars.get('opinions_display', None)]
+        yield [p.session.code, Constants.issues_list,
+            p.participant.code, p.round_number, p.id_in_group, 
+            p.participant.vars.get('dropout_round', None), 
+            p.participant.vars.get('num_timeout', None),
+            p.participant.vars.get('survey_display1', None),
+            p.participant.vars.get('survey_display2', None), 
+            p.participant.vars.get('opinions_display', None)]

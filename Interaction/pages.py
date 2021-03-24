@@ -10,7 +10,7 @@ class MatchingWaitPage(WaitPage):
 
 class Step1(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         
     timeout_seconds = 50
@@ -72,7 +72,7 @@ class Step1(Page):
 
 class Step2_1(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             all_answers = self.player.get_all_answers(2)
@@ -171,10 +171,10 @@ class PreMessageWait_step2_1(WaitPage):
 
 class Step2_2(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
-            message = "You are completely wrong with your opinion. Your opinion is absolutely not realistic. Rethink your position and change your mind so that is closer to mine."
+            message = "This person timed out at the selection of messages."
             self.player.message_step2_1_1 = message
             self.player.message_step2_1_2 = message
             self.player.message_step2_1_3 = message
@@ -231,7 +231,7 @@ class Step2_2(Page):
             self.player.participant.vars['check_dropout'] = True
             prenum_timeout = self.player.participant.vars['num_timeout']
             self.player.participant.vars['num_timeout'] = prenum_timeout + 1
-            message = "You are completely wrong with your opinion. Your opinion is absolutely not realistic. Rethink your position and change your mind so that is closer to mine."
+            message = "This person timed out at the selection of messages."
             self.player.message_step2_1_1 = message
             self.player.message_step2_1_2 = message
             self.player.message_step2_1_3 = message
@@ -241,7 +241,7 @@ class MessageWait_step2_1(WaitPage):
 
 class Step2_3(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             all_answers = self.player.get_all_answers(2)
@@ -332,10 +332,10 @@ class Step2_4(Page):
     timeout_seconds = 30
 
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
-            message = "You are completely wrong with your opinion. Your opinion is absolutely not realistic. Rethink your position and change your mind so that is closer to mine."
+            message = "This person timed out at the selection of messages."
             self.player.message_step2_2_1 = message
             self.player.message_step2_2_2 = message
             self.player.message_step2_2_3 = message
@@ -389,7 +389,7 @@ class Step2_4(Page):
             self.player.participant.vars['check_dropout'] = True
             prenum_timeout = self.player.participant.vars['num_timeout']
             self.player.participant.vars['num_timeout'] = prenum_timeout + 1
-            message = "You are completely wrong with your opinion. Your opinion is absolutely not realistic. Rethink your position and change your mind so that is closer to mine."
+            message = "This person timed out at the selection of messages."
             self.player.message_step2_2_1 = message
             self.player.message_step2_2_2 = message
             self.player.message_step2_2_3 = message
@@ -399,7 +399,7 @@ class MessageWait_step2_2(WaitPage):
 
 class Step2_5(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             all_answers = self.player.get_all_answers(2)
@@ -489,7 +489,7 @@ class PreMessageWait_step2_3(WaitPage):
 
 class Step3_1(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             all_answers = self.player.get_all_answers(2)
@@ -576,10 +576,10 @@ class PreMessageWait_step3(WaitPage):
 
 class Step3_2(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
-            message = "You are completely wrong with your opinion. Your opinion is absolutely not realistic. Rethink your position and change your mind so that is closer to mine."
+            message = "This person timed out at the selection of messages."
             self.player.message_step3_1 = message
             self.player.message_step3_2 = message
             self.player.message_step3_3 = message
@@ -635,7 +635,7 @@ class Step3_2(Page):
             self.player.participant.vars['check_dropout'] = True
             prenum_timeout = self.player.participant.vars['num_timeout']
             self.player.participant.vars['num_timeout'] = prenum_timeout + 1
-            message = "You are completely wrong with your opinion. Your opinion is absolutely not realistic. Rethink your position and change your mind so that is closer to mine."
+            message = "This person timed out at the selection of messages."
             self.player.message_step3_1 = message
             self.player.message_step3_2 = message
             self.player.message_step3_3 = message
@@ -645,7 +645,7 @@ class MessageWait_step3(WaitPage):
 
 class Step3_3(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             all_answers = self.player.get_all_answers(2)
@@ -730,7 +730,7 @@ class Do_payoff(WaitPage):
 
 class Dropout_check(Page):
     def is_displayed(self):
-        if self.player.participant.vars["is_dropout"] < 4:
+        if self.player.participant.is_dropout == False:
             return self.player.participant.vars["check_dropout"] 
         else:
             return False
@@ -738,7 +738,7 @@ class Dropout_check(Page):
     timeout_seconds = 30
 
     def vars_for_template(self):
-        num_d = self.player.participant.vars["is_dropout"]
+        num_d = self.player.participant.vars["num_dropout"]
         return dict(
             num_d = num_d
         )
@@ -746,8 +746,11 @@ class Dropout_check(Page):
     def before_next_page(self):
         self.player.participant.vars["check_dropout"] = False
         if self.timeout_happened:
-            prenum_dropout = self.player.participant.vars["is_dropout"]
-            self.player.participant.vars["is_dropout"] = prenum_dropout + 1
+            prenum_dropout = self.player.participant.vars["num_dropout"]
+            self.player.participant.vars["num_dropout"] = prenum_dropout + 1
+            if self.player.participant.vars["num_dropout"] > 3:
+                self.player.participant.is_dropout = True
+                self.player.participant.vars['dropout_round'] = self.round_number
 
 
 

@@ -11,8 +11,10 @@ class Survey1_1(Page):
 
     def before_next_page(self):
         self.player.participant.vars['num_timeout'] = 0
-        self.player.participant.vars['is_dropout'] = False
+        self.player.participant.is_dropout = False
+        self.player.participant.vars['dropout_round'] = 0
         self.player.participant.vars['check_dropout'] = False
+        self.player.participant.vars['num_dropout'] = 0
         if self.timeout_happened:
             self.player.participant.vars['check_dropout'] = True
             prenum_timeout = self.player.participant.vars['num_timeout']
@@ -20,7 +22,7 @@ class Survey1_1(Page):
 
 class Survey1_2(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             self.player.survey_1_2a = 50
@@ -38,7 +40,7 @@ class Survey1_2(Page):
 
 class Survey1_3(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             self.player.survey_1_3a = 50
@@ -56,7 +58,7 @@ class Survey1_3(Page):
 
 class Survey1_4(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             self.player.survey_1_4a = 50
@@ -74,7 +76,7 @@ class Survey1_4(Page):
 
 class Survey1_5(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             self.player.survey_1_5a = 50
@@ -92,7 +94,7 @@ class Survey1_5(Page):
 
 class Survey2(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             choice1 = ["A. Problems around integration are mostly the fault of immigrants.", 
@@ -138,7 +140,7 @@ class Survey2(Page):
 
 class Survey3(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             choices = ["E-sport", "Soccer (football)", "Car racing", "Figure skating", "Curling", "Darts", "I hate watching sports."]
@@ -159,7 +161,7 @@ class Survey3(Page):
 
 class Survey4(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             choices = ["Critical, quarrelsome", "Anxious, Easily upset", "Disorganized, careless", "Conventional, uncreative"]
@@ -180,7 +182,7 @@ class Survey4(Page):
 
 class Survey5(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             self.player.survey_5 = "ON"
@@ -199,7 +201,7 @@ class Survey5(Page):
 
 class Survey6(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             self.player.survey_6 = "B. I will do my best in this experiment to get the most for me, I do not care what you are going to receive."
@@ -217,7 +219,7 @@ class Survey6(Page):
 
 class Survey7(Page):
     def is_displayed(self):
-        if self.player.participant.vars['is_dropout'] < 4:
+        if self.player.participant.is_dropout == False:
             return True
         else:
             self.player.survey_7 = 0
@@ -245,7 +247,7 @@ class Welcome(Page):
 
 class Dropout_check(Page):
     def is_displayed(self):
-        if self.player.participant.vars["is_dropout"] < 4:
+        if self.player.participant.is_dropout == False:
             return self.player.participant.vars["check_dropout"] 
         else:
             return False
@@ -253,7 +255,7 @@ class Dropout_check(Page):
     timeout_seconds = 30
 
     def vars_for_template(self):
-        num_d = self.player.participant.vars["is_dropout"]
+        num_d = self.player.participant.vars["num_dropout"]
         return dict(
             num_d = num_d
         )
@@ -261,8 +263,11 @@ class Dropout_check(Page):
     def before_next_page(self):
         self.player.participant.vars["check_dropout"] = False
         if self.timeout_happened:
-            prenum_dropout = self.player.participant.vars["is_dropout"]
-            self.player.participant.vars["is_dropout"] = prenum_dropout + 1
+            prenum_dropout = self.player.participant.vars["num_dropout"]
+            self.player.participant.vars["num_dropout"] = prenum_dropout + 1
+            if self.player.participant.vars["num_dropout"] > 3:
+                self.player.participant.is_dropout = True
+                self.player.participant.vars['dropout_round'] = self.round_number
 
 
 page_sequence = [Welcome, Survey1_1, Dropout_check, 
