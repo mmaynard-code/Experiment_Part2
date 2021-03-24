@@ -222,7 +222,8 @@ class Player(BasePlayer):
                  ['b', "Master's Degree or Professional Degree in addition to a Bachelor's Degree"],
                  ['c', "Bachelor's Degree"],
                  ['d', 'College'],
-                 ['e', 'High School']],
+                 ['e', 'High School'],
+                 ['f', 'Less than High School']],
         label="What is your highest level of education?",
         widget=widgets.RadioSelect
     )
@@ -231,7 +232,8 @@ class Player(BasePlayer):
                  ['b', "Master's Degree or Professional Degree in addition to a Bachelor's Degree"],
                  ['c', "Bachelor's Degree"],
                  ['d', 'College'],
-                 ['e', 'High School']],
+                 ['e', 'High School'],
+                 ['f', 'Less than High School']],
         label="What is your mother's level of education?",
         widget=widgets.RadioSelect
     )
@@ -240,14 +242,15 @@ class Player(BasePlayer):
                  ['b', "Master's Degree or Professional Degree in addition to a Bachelor's Degree"],
                  ['c', "Bachelor's Degree"],
                  ['d', 'College'],
-                 ['e', 'High School']],
+                 ['e', 'High School'],
+                 ['f', 'Less than High School']],
         label="What is your father's level of education?",
         widget=widgets.RadioSelect
     )
 
 # FUNCTIONS
 # PAGES
-class Impressions(Page):
+class Personality(Page):
     timeout_seconds = 120
     form_model = 'player'
     form_fields = ['end_personal_communicative', 'end_personal_smile', 'end_personal_riskpref']
@@ -287,4 +290,4 @@ class Demographic(Page):
     def vars_for_template(player: Player):
         participant = player.participant
 
-page_sequence = [Impressions, Hypothetical1, Hypothetical2, Hypothetical3, Demographic]
+page_sequence = [Personality, Hypothetical1, Hypothetical2, Hypothetical3, Demographic]
