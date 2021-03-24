@@ -29,7 +29,13 @@ SESSION_CONFIGS = [
     dict(
         name="Full_Experiment_surveys",
         display_name="Full experiment",
-        app_sequence=['Game', 'p1_survey', 'Survey', 'Interaction', 'p2_survey', 'end_survey', 'payment_info'],
+        app_sequence=['gdpr_consent','Game', 'p1_survey', 'Survey', 'Interaction', 'p2_survey', 'end_survey', 'payment_info'],
+        num_demo_participants=16
+    ),
+    dict(
+        name="Full_Experiment_p2",
+        display_name="Full experiment_p2",
+        app_sequence=['gdpr_consent','Survey', 'Interaction', 'p2_survey', 'end_survey', 'payment_info'],
         num_demo_participants=16
     ),
 ]
@@ -51,7 +57,7 @@ SESSION_CONFIG_DEFAULTS = dict(
         template='global/mturk_template.html',
         minutes_allotted_per_assignment=120,
         expiration_hours=7 * 24,
-        'qualification_requirements': [
+        qualification_requirements=[
                 # Only US
             {
                 'QualificationTypeId': "00000000000000000071",
@@ -70,6 +76,10 @@ SESSION_CONFIG_DEFAULTS = dict(
                 'Comparator': "GreaterThanOrEqualTo",
                 'IntegerValues': [95]
             },
+            {
+                'QualificationTypeId': "YOUR_QUALIFICATION_ID_HERE",
+                'Comparator': "DoesNotExist",
+            }
         ],
         grant_qualification_id='YOUR_QUALIFICATION_ID_HERE', # to prevent retakes
     ),
@@ -114,4 +124,3 @@ INSTALLED_APPS = ['otree']
 # setting for integration with AWS Mturk
 AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
-

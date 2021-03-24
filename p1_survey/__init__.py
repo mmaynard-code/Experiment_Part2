@@ -63,7 +63,7 @@ class Player(BasePlayer):
         choices=[['1', "I didn't consider increasing my rating at all"], ['2', ''], ['3', ''],
                  ['4', ''], ['5', ''], ['6', ''],
                  ['7', 'I tried to increase my rating']],
-        label="To what extent did increasing your rating to others characterise your X/Y decisions during the experiment",
+        label="To what extent did increasing your own expected rating by others characterise your X/Y decisions during the experiment",
         widget=widgets.RadioSelect
     )
     p1_decisions_gosimportance = models.StringField(
@@ -124,4 +124,9 @@ class Scoring(Page):
     def vars_for_template(player: Player):
         participant = player.participant
 
-page_sequence = [Impressions, Decisions, Scoring]
+class EndPart1(Page):
+    timeout_seconds = 60
+    form_model = 'player'
+
+
+page_sequence = [Impressions, Decisions, Scoring, EndPart1]

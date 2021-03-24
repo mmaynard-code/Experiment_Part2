@@ -14,7 +14,7 @@ class Constants(BaseConstants):
     # Setup information
     name_in_url = 'Game'
     players_per_group = 4
-    num_rounds = 10
+    num_rounds = 16
     random_names = tuple(
         ["Altair", "Birtum", "Ceres", "Deneb", "Enki", "Faumea", "Ganymede", "Hadar", "Indus", "Kestas",
          "Lahar", "Meissa", "Nirah", "Oizys", "Phobos", "Rhapso", "Sedna", "Thesan", "Usil", "Vanth"])
@@ -77,6 +77,7 @@ class Player(BasePlayer):
         initial='a00')
     n_neighbours = models.IntegerField()
     treatment_id = models.IntegerField()
+    neighbours = models.StringField()
     opponents = models.StringField()
     other_players = models.StringField()
     payoffs = models.StringField()
@@ -219,7 +220,7 @@ def set_payoff(player: Player):
 def get_earnings(player: Player):
     # Establishes end of round earnings
     earnings = []
-    if player.round_number == 10:
+    if player.round_number == Constants.num_rounds:
         for p in player.in_all_rounds():
             earnings.append(p.payoff)
         earnings = math.floor(sum(random.sample(earnings, 4))/4)
@@ -322,11 +323,14 @@ def get_neighbours(player: Player):
     elif player.treatment_id == 4:
         treatment = Constants.treatment_4
     neighbours = []
+    p_neighbours = []
     # Returns the neighbours as participant objects for future use
     for neighbour_id in treatment[player.participant.id_in_session]:
         for neighbour in list_neighbours:
             if neighbour.participant.id_in_session == neighbour_id:
                 neighbours.append(neighbour)
+                p_neighbours.append(neighbour.participant.label)
+    player.neighbours = re.sub(r'[\[\]\' ]', '', str(p_neighbours))
     return neighbours
 
 
@@ -378,6 +382,7 @@ def tidy_ratings(player: Player):
             player.my_ratings = player.in_round(player.round_number - 1).my_ratings
     else:
         p_ratings = player.my_ratings[0:-1]
+        player.my_ratings = p_ratings
     if player.shared_ratings == '' and player.round_number > 1:
         if player.in_round(player.round_number - 1).shared_ratings == '':
             if player.n_neighbours == 2:
@@ -389,8 +394,7 @@ def tidy_ratings(player: Player):
             player.shared_ratings = player.in_round(player.round_number - 1).shared_ratings
     else:
         p_shared_ratings = player.shared_ratings[0:-1]
-    player.my_ratings = p_ratings
-    player.shared_ratings = p_shared_ratings
+        player.shared_ratings = p_shared_ratings
 
 
 def set_received_rating(player: Player):
@@ -482,7 +486,7 @@ def set_received_rating(player: Player):
 
 
 class Introduction(Page):
-    timeout_seconds = 120
+    timeout_seconds = 150
 
     def is_displayed(self):
         return self.round_number == 1
@@ -493,6 +497,9 @@ class GroupWaitPage(WaitPage):
     html_text = "<h4>Instructions for the next page</h3>" \
                 "<p>These instructions are available at the bottom of each page for reference.</p>" \
                 "<p>With both of your pairs, you face the following decision. You can choose from two options: these two options are indicated with X and Y.</p>" \
+                "<table class='table table-bordered text-center'style='width: auto; margin: auto'><tr><th colspan=2 rowspan=2></th><th colspan=2>The Other Participant</th></tr><tr><th>Choose X</th><th>Choose Y</th></tr>" \
+                "<tr><th rowspan=2><span style='transform: rotate(-90deg);'>You</span></th><th>Choose X</th><td>You both gain 5 points.</td><td>You gain 0 points. They gain 6 points.</td></tr>" \
+                "<tr><th>Choose Y</th><td>You gain 6 points. They gain 0 points</td><td>You both gain 2 points.</td></tr></table>" \
                 "<p>The amount that you earn in this round does not depend only on your decision, but on the decision of your partners as well.</p>"\
                 "<p>If your partners run out of time, it is considered as they have chosen <b>Y</b></p>"\
                 "<h4>Bonus Payment</h4>" \
@@ -820,7 +827,7 @@ class Sharing(Page):
             neighbour2 = get_neighbours(player)[1].participant.label
             neighbour3 = get_neighbours(player)[2].participant.label
 
-        if player.round_number == 10:
+        if player.round_number == Constants.num_rounds:
             earnings = get_earnings(player)
             player.participant.payoff = earnings
             player.participant.vars['reward_p1'] = earnings
@@ -857,9 +864,10 @@ class Sharing(Page):
 
         vars_dict = dict(
             a0=set_received_rating(player),
-            a1=player.shared_ratings,
-            a2=player.received_ratings,
-            a4=shared_rating_list[0::15],
+            a2=player.shared_ratings,
+            a1=player.received_ratings,
+            a4=shared_rating_list,
+            a5=player.neighbours,
             # participant information
             neighbour1=neighbour1,
             neighbour2=neighbour2,

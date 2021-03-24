@@ -12,10 +12,25 @@
         <p>
             You timed out without making any decisions.
         </p>
+    {% if opponent1_timed_out == 'b' or opponent1_timed_out == 'd' %}
+        <p><b>{{ opponent1_label }}</b> timed out.</p>
+    {% else %}
+        <p><b>{{ opponent1_label }}</b> chose to {{ opponent1_decision }}.</p>
+    {% endif %}
+    {% if opponent2_timed_out == 'b' or opponent1_timed_out == 'd' %}
+        <p><b>{{ opponent2_label }}</b> timed out.</p>
+    {% else %}
+        <p><b>{{ opponent2_label }}</b> chose to {{ opponent2_decision }}.</p>
+    {% endif %}
     {% elif me_timed_out == 'b' %}
         <p>
             You timed out, but made one decision.
         </p>
+    {% if opponent2_timed_out == 'b' or opponent1_timed_out == 'd' %}
+        <p><b>{{ opponent2_label }}</b> timed out.</p>
+    {% else %}
+        <p><b>{{ opponent2_label }}</b> chose to {{ opponent2_decision }}.</p>
+    {% endif %}
         <p>
             {% if same_choice1 %}
                 Both you and <b>{{ opponent1_label }}</b> chose to {{ my_decision1 }} (<b>{{payoff1}}</b> earned)
@@ -27,35 +42,40 @@
         <p>
             You timed out, but made one decision.
         </p>
+    {% if opponent1_timed_out == 'b' or opponent1_timed_out == 'd' %}
+        <p><b>{{ opponent1_label }}</b> timed out.</p>
+    {% else %}
+        <p><b>{{ opponent1_label }}</b> chose to {{ opponent1_decision }}.</p>
+    {% endif %}
         <p>
             {% if same_choice2 %}
-                Both you and <b>{{ opponent2_label }}</b> chose to {{ my_decision2 }} (<b>{{payoff2}}</b> earned)
+                Both you and <b>{{ opponent2_label }}</b> chose to {{ my_decision2 }} (You earned <b>{{payoff2}}</b>)
             {% else %}
-                You chose {{ my_decision2 }} and <b>{{ opponent2_label }}</b> chose {{ opponent2_decision }} (<b>{{payoff2}}</b> earned)
+                You chose {{ my_decision2 }} and <b>{{ opponent2_label }}</b> chose {{ opponent2_decision }} (You earned <b>{{payoff2}}</b>)
             {% endif %}
         </p>
     {% else %}
         <p>
             {% if opponent1_timed_out == 'b' or opponent1_timed_out == 'd'%}
-                <b>{{ opponent1_label }}</b> timed out (<b>{{payoff1}}</b> earned)
+                <b>{{ opponent1_label }}</b> timed out (You earned <b>{{payoff1}}</b>)
             {% elif same_choice1 %}
-                Both you and <b>{{ opponent1_label }}</b> chose to {{ my_decision1 }} (<b>{{payoff1}}</b> earned)
+                Both you and <b>{{ opponent1_label }}</b> chose to {{ my_decision1 }} (You earned <b>{{payoff1}}</b>)
             {% else %}
-                You chose {{ my_decision1 }} and <b>{{ opponent1_label }}</b> chose {{ opponent1_decision }} (<b>{{payoff1}}</b> earned)
+                You chose {{ my_decision1 }} and <b>{{ opponent1_label }}</b> chose {{ opponent1_decision }} (You earned <b>{{payoff1}}</b>)
             {% endif %}
         </p>
         <p>
             {% if opponent2_timed_out == 'c' or opponent2_timed_out == 'd' %}
-                <b>{{ opponent2_label }}</b> timed out (<b>{{payoff2}}</b> earned)
+                <b>{{ opponent2_label }}</b> timed out (You earned <b>{{payoff2}}</b>)
             {% elif same_choice2 %}
-                Both you and <b>{{ opponent2_label }}</b> chose to {{ my_decision2 }} (<b>{{payoff2}}</b> earned)
+                Both you and <b>{{ opponent2_label }}</b> chose to {{ my_decision2 }} (You earned <b>{{payoff2}}</b>)
             {% else %}
-                You chose {{ my_decision2 }} and <b>{{ opponent2_label }}</b> chose {{ opponent2_decision }} (<b>{{payoff2}}</b> earned)
+                You chose {{ my_decision2 }} and <b>{{ opponent2_label }}</b> chose {{ opponent2_decision }} (You earned <b>{{payoff2}}</b>)
             {% endif %}
         </p>
     {% endif %}
     <p>
-        In total, you have earned <b>{{ player.payoff }}</b> this round.
+        Your average points earned for this round is <b>{{ player.payoff }}</b>.
     </p>
 </div>
 <div class="col" style="margin-top: 10px">
@@ -1005,10 +1025,32 @@
     <p>
         With both of your pairs, you face the following decision.
         You can choose from two options: these two options are indicated with <b>X</b> and <b>Y</b>.
-        <p>
-        <i>The amount that you earn in this round does not depend only on your decision, but on the decision
-            of your pair as well.</i>
     </p>
+        <table class='table table-bordered text-center'
+               style='width: auto; margin: auto'>
+            <tr>
+                <th colspan=2 rowspan=2></th>
+                <th colspan=2>The Other Participant</th>
+            </tr>
+            <tr>
+                <th>Choose X</th>
+                <th>Choose Y</th>
+            </tr>
+            <tr>
+                <th rowspan=2><span style="transform: rotate(-90deg);">You</span></th>
+                <th>Choose X</th>
+                <td>You both gain {{ Constants.both_cooperate_payoff }}.</td>
+                <td>You gain {{ Constants.betrayed_payoff }}. They gain {{ Constants.betray_payoff }}</td>
+            </tr>
+            <tr>
+                <th>Choose Y</th>
+                <td>You gain {{ Constants.betray_payoff }}. They gain {{ Constants.betrayed_payoff }}</td>
+                <td>You both gain {{ Constants.both_defect_payoff }}.</td>
+            </tr>
+        </table>
+    <p>
+    <i>The amount that you earn in this round does not depend only on your decision, but on the decision
+        of your pair as well.</i>
     </p>
     <p>
         If your partners run out of time, it is considered as they have chosen <b>Y</b>.
@@ -1028,6 +1070,29 @@
     <h3>
         Rating others
     </h3>
+    <p>
+        After you are shown the result of the game you will have the opportunity to rate other players on a
+        scale from 0 to 10 according to how much you trust them. In a given round, you can only rate those who
+        you have already met in one of the games up to the round you are in. By default, the neutral value of 5
+        is set to everyone. In this step others can also evaluate your trustworthiness.
+    </p>
+    {% if subsession.round_number >= Constants.round_share_start %}
+    <h3>
+        Communicate Ratings
+    </h3>
+    <p>
+        From now on you can share your rating with two players, who will be selected randomly. They will remain
+        your communication partners until the end of the experiment.
+    </p>
+    <h3>
+        Update Ratings
+    </h3>
+    <p>
+        After all evaluation have been sent, the ratings you received from your communication partners will appear on your screen.
+        At this stage, you have the opportunity again to change the points you allocated previously, including those scores about whom you obtained information.
+    </p>
+    {% endif %}
+
 
 </div>
 </div>

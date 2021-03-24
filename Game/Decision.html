@@ -1035,10 +1035,13 @@
     <p>
         With both of your pairs, you face the following decision.
         You can choose from two options: these two options are indicated with <b>X</b> and <b>Y</b>.
-        <p>
+    </p>
+        <table class='table table-bordered text-center'style='width: auto; margin: auto'><tr><th colspan=2 rowspan=2></th><th colspan=2>The Other Participant</th></tr><tr><th>Choose X</th><th>Choose Y</th></tr>
+            <tr><th rowspan=2><span style="transform: rotate(-90deg);">You</span></th><th>Choose X</th><td>You both gain {{ Constants.both_cooperate_payoff }}.</td><td>You gain {{ Constants.betrayed_payoff }}. They gain {{ Constants.betray_payoff }}</td></tr>
+            <tr><th>Choose Y</th><td>You gain {{ Constants.betray_payoff }}. They gain {{ Constants.betrayed_payoff }}</td><td>You both gain {{ Constants.both_defect_payoff }}.</td></tr></table>
+    <p>
         <i>The amount that you earn in this round does not depend only on your decision, but on the decision
             of your pair as well.</i>
-    </p>
     </p>
     <p>
         If your partners run out of time, it is considered as they have chosen <b>Y</b>.
