@@ -482,7 +482,7 @@ def set_received_rating(player: Player):
 
 
 class Introduction(Page):
-    timeout_seconds = 120
+    timeout_seconds = 150
 
     def is_displayed(self):
         return self.round_number == 1
@@ -493,6 +493,9 @@ class GroupWaitPage(WaitPage):
     html_text = "<h4>Instructions for the next page</h3>" \
                 "<p>These instructions are available at the bottom of each page for reference.</p>" \
                 "<p>With both of your pairs, you face the following decision. You can choose from two options: these two options are indicated with X and Y.</p>" \
+                "<table class='table table-bordered text-center'style='width: auto; margin: auto'><tr><th colspan=2 rowspan=2></th><th colspan=2>The Other Participant</th></tr><tr><th>Choose X</th><th>Choose Y</th></tr>" \
+                "<tr><th rowspan=2><span style='transform: rotate(-90deg);'>You</span></th><th>Choose X</th><td>You both gain 5 points.</td><td>You gain 0 points. They gain 6 points.</td></tr>" \
+                "<tr><th>Choose Y</th><td>You gain 6 points. They gain 0 points</td><td>You both gain 2 points.</td></tr></table>" \
                 "<p>The amount that you earn in this round does not depend only on your decision, but on the decision of your partners as well.</p>"\
                 "<p>If your partners run out of time, it is considered as they have chosen <b>Y</b></p>"\
                 "<h4>Bonus Payment</h4>" \
@@ -857,9 +860,9 @@ class Sharing(Page):
 
         vars_dict = dict(
             a0=set_received_rating(player),
-            a1=player.shared_ratings,
-            a2=player.received_ratings,
-            a4=shared_rating_list[0::15],
+            a2=player.shared_ratings,
+            a1=player.received_ratings,
+            a4=shared_rating_list,
             # participant information
             neighbour1=neighbour1,
             neighbour2=neighbour2,

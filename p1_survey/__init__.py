@@ -124,4 +124,9 @@ class Scoring(Page):
     def vars_for_template(player: Player):
         participant = player.participant
 
-page_sequence = [Impressions, Decisions, Scoring]
+class EndPart1(Page):
+    timeout_seconds = 60
+    form_model = 'player'
+
+
+page_sequence = [Impressions, Decisions, Scoring, EndPart1]
