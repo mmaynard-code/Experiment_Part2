@@ -1,0 +1,119 @@
+<meta content="width=device-width,initial-scale=1" name="viewport" />
+<section class="container" id="SurveyLink"><!-- Instructions -->
+<div class="row">
+<div class="col-xs-12 col-md-12">
+<div class="panel panel-default" style="margin-bottom:10px">
+<div class="panel-body">
+<h3>General Data Protection Regulation Notice</h3>
+ 
+<p>I hereby consent that Link&ouml;ping University processes my personal data in the form of:</p>
+ 
+<p><i>Amazon Mechanical Turk Worker ID and IP Address</i></p>
+ 
+<p>for the following purpose:</p>
+ 
+<p><i>A social science experiment to study how the order and structure of informal communication affect social interactions</i></p>
+ 
+<h4>Information</h4>
+ 
+<p>Your personal information will be processed in the following way</p>
+ 
+<p><i>To verify unique participants in the experiment. It will be held until the 31 March 2021, the end of the data collection phase of the experiment. It will then be removed from LiU systems and your responses will become anonymous.</i></p>
+ 
+<p>Personal data controller is Link&ouml;ping University, 581 83 Link&ouml;ping, corporate identification number 202100-3096.</p>
+ 
+<p>Legal basis for the data processing: Consent.</p>
+ 
+<p>Withdrawal of consent/questions/complaints: If you want withdraw your consent, please contact: Matthew Maynard (<a href="mailto: matthew.maynard@liu.se">matthew.maynard@liu.se</a>) Liyu Pan (<a href="mailto: liyu.pan@liu.se">liyu.pan@liu.se</a>) Flora Samu (<a href="mailto: flora.samu@liu.se">flora.samu@liu.se</a>) or Karoly Takacs (<a href="mailto: karoly.takacs@liu.se">karoly.takacs@liu.se</a>)</p>
+ 
+<p>Your consent will be valid until 31 March 2021. You may withdraw your consent at any time without giving a reason. We will in that case stop using your personal data that we have collected based on your consent. You may request to have your personal data erased, and if you do so, we will erase information about you wherever possible. You have the right to obtain information about your personal data that are processed by Link&ouml;ping University. You may request this in writing by contacting the registrar&rsquo;s office at Link&ouml;ping University, either by email or letter. You also have the right to request that the use of certain of your personal data be limited.</p>
+ 
+<p>If you want to know how your personal data are used, or you believe that we have used your personal data in a way that violates the agreement or current legislation, please contact Link&ouml;ping University&rsquo;s data protection officer at dataskyddsombud@liu.se. If you have complaints regarding the way in which Link&ouml;ping University processes your personal data, you are always entitled to contact the relevant inspection authority, which in this case is the Swedish Data Protection Authority.</p>
+</div>
+</div>
+ 
+<div class="panel panel-primary"><!-- WARNING: the ids "collapseTrigger" and "instructionBody" are being used to enable expand/collapse feature --><a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>I hereby consent that Link&ouml;ping University processes my personal data according to the information above</strong> <span class="collapse-text">(Click to expand)</span> </a>
+ 
+<div class="panel-body" id="instructionBody">
+<p>We are conducting an academic survey about social networks. We need to understand your opinion about social networks. Select the link below to complete the survey. At the end of the survey, you will receive a code to paste into the box below to receive credit for taking our survey.</p>
+ 
+<p><strong>Make sure to leave this window open as you complete the survey. </strong> When you are finished, you will return to this page to paste the code into the box.</p>
+<label>Survey link:</label> <b><a class="otree-link">link</a></b>
+ 
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<crowd-form>
+  <div style="padding: 20px">
+    <p><strong>
+      On the last page, you will be given a completion code.
+      Please copy/paste that code below.</strong>
+    </p>
+
+    <crowd-input name="completion_code" label="Enter your completion code here" required></crowd-input>
+    <br>
+  </div>
+</crowd-form>
+ 
+</div>
+</div>
+</div>
+</div>
+<!-- End Instructions --><!-- Survey Link Layout --><!-- End Survey Link Layout --></section>
+<!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->
+<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" integrity="sha384-IS73LIqjtYesmURkDE9MXKbXqYA8rvKEp/ghicjem7Vc3mGRdQRptJSz60tvrB6+" rel="stylesheet" /><!-- Open internal style sheet -->
+<style type="text/css">#collapseTrigger{
+  color:#fff;
+  display: block;
+  text-decoration: none;
+}
+#submitButton{
+  white-space: normal;
+}
+.image{
+  margin-bottom: 15px; 
+}
+/* CSS for breaking long words/urls */
+.dont-break-out {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+</style>
+<!-- Close internal style sheet --><!-- External JS references --><script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" integrity="sha384-s1ITto93iSMDxlp/79qhWHi+LsIi9Gx6yL+cOKDuymvihkfol83TYbLbOw+W/wv4" crossorigin="anonymous"></script><!-- Open internal javascript --><script>
+  $(document).ready(function() {
+    // Instructions expand/collapse
+    var content = $('#instructionBody');
+    var trigger = $('#collapseTrigger');
+    content.hide();
+    $('.collapse-text').text('(Click to expand)');
+    trigger.click(function(){
+      content.toggle();
+      var isVisible = content.is(':visible');
+      if(isVisible){
+        $('.collapse-text').text('(Click to collapse)');
+      }else{
+        $('.collapse-text').text('(Click to expand)');
+      }
+    });
+    // end expand/collapse
+  });
+</script><!-- Close internal javascript -->
+
+    <!-- <p>After
+      you have accepted this HIT, the URL to the study will appear here: <b><a class="otree-link">link</a></b>.
+    </p>
+    <p>
+      On the last page, you will be given a completion code.
+      Please copy/paste that code below.
+    </p>
+
+    <crowd-input name="completion_code" label="Enter your completion code here" required></crowd-input>
+    <br>
+  </div>
+</crowd-form> -->
