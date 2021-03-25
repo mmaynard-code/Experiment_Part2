@@ -77,11 +77,11 @@ SESSION_CONFIG_DEFAULTS = dict(
                 'IntegerValues': [95]
             },
             {
-                'QualificationTypeId': "YOUR_QUALIFICATION_ID_HERE",
+                'QualificationTypeId': "35BJBPTFKU84P0AZ678HK42BR0WTFE",
                 'Comparator': "DoesNotExist",
             }
         ],
-        grant_qualification_id='YOUR_QUALIFICATION_ID_HERE', # to prevent retakes
+        grant_qualification_id='35BJBPTFKU84P0AZ678HK42BR0WTFE', # to prevent retakes
     ),
 )
 
