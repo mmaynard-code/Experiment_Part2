@@ -97,6 +97,8 @@ class Player(BasePlayer):
     # Rating variables
     my_ratings = models.StringField(
         initial='5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5')
+    my_ratings_results = models.StringField()
+    my_ratings_update = models.StringField()
     shared_ratings = models.StringField()
     received_ratings = models.StringField()
 
@@ -658,13 +660,18 @@ class Results(Page):
         opponent2 = get_opponents(player)[1]
 
         current_list = []
+        my_ratings_update_list = []
         current_opponents = [player.opponents.split(",")[0], player.opponents.split(",")[1]]
         for i in all_other_players_labels:
             k = "disabled"
+            l = "-2"
             for j in current_opponents:
                 if j == i:
                     k = ""
+                    l = "-1"
             current_list.append(k)
+            my_ratings_update_list.append(l)
+        player.my_ratings_update = re.sub(r'[\[\]\' ]', '', str(my_ratings_update_list))
 
         if player.my_ratings == '' and player.round_number > 1:
             if player.in_round(player.round_number - 1).my_ratings == '':
@@ -674,6 +681,7 @@ class Results(Page):
                 player.my_ratings = player.in_round(player.round_number - 1).my_ratings
 
         vars_dict = dict(
+            a6=player.my_ratings_update,
             # participant information
             neighbour1=neighbour1,
             neighbour2=neighbour2,
@@ -848,12 +856,17 @@ class Sharing(Page):
 
         n = 0
         disable_list = []
+        my_ratings_update_list = []
         while n < 15:
             if shared_rating_list[n::15] == ['-', '-', '-']:
                 disable_list.append('disabled')
+                my_ratings_update_list.append('-2')
             else:
                 disable_list.append('')
+                my_ratings_update_list.append('-1')
             n = n + 1
+        results_my_ratings_update = player.my_ratings_update
+        player.my_ratings_update = results_my_ratings_update + "," + re.sub(r'[\[\]\' ]', '', str(my_ratings_update_list))
 
         if player.my_ratings == '' and player.round_number > 1:
             if player.in_round(player.round_number - 1).my_ratings == '':
@@ -861,6 +874,7 @@ class Sharing(Page):
                 player.error_out = player.error_out + 1
             else:
                 player.my_ratings = player.in_round(player.round_number - 1).my_ratings
+        player.my_ratings_results = player.my_ratings
 
         vars_dict = dict(
             a0=set_received_rating(player),
@@ -868,6 +882,8 @@ class Sharing(Page):
             a1=player.received_ratings,
             a4=shared_rating_list,
             a5=player.neighbours,
+            a6=player.my_ratings_update,
+            a7=player.my_ratings_results,
             # participant information
             neighbour1=neighbour1,
             neighbour2=neighbour2,
