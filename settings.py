@@ -76,10 +76,18 @@ SESSION_CONFIG_DEFAULTS = dict(
                 'Comparator': "GreaterThanOrEqualTo",
                 'IntegerValues': [95]
             },
+            # Participanted task
             {
                 'QualificationTypeId': "3E3LRXDRZ1Y84PG4A1OPC5SF0M35Y7",
                 'Comparator': "DoesNotExist",
-            }
+            },
+            # Recruited
+            {
+                'QualificationTypeId': "3P6HPTAPT9T6X8HSPQ5FLQQGLBEPFG",
+                'Comparator': "GreaterThanOrEqualTo",
+                'IntegerValues': [0]
+            },
+
         ],
         grant_qualification_id='3E3LRXDRZ1Y84PG4A1OPC5SF0M35Y7', # to prevent retakes
     ),
