@@ -48,15 +48,16 @@ SESSION_CONFIGS = [
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1,
     participation_fee=15.00,
+    submission_code="LIUSNA2021",
     doc="",
     mturk_hit_settings=dict(
         keywords='experiment, game, decision, decision-making, bonus',
-        title='Participate in an online experiment: play a decision-making game',
+        title='!!OPEN QUICK!!Play a decision-making game',
         description='Two-hour experiment with an opportunity to earn up to a 50% Bonus reward.',
         frame_height=500,
         template='global/mturk_template.html',
-        minutes_allotted_per_assignment=120,
-        expiration_hours=7 * 24,
+        minutes_allotted_per_assignment=180,
+        expiration_hours=48,
         qualification_requirements=[
                 # Only US
             {
@@ -132,3 +133,5 @@ INSTALLED_APPS = ['otree']
 # setting for integration with AWS Mturk
 AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
+
+MTURK_NUM_PARTICIPANTS_MULTIPLE = 1
