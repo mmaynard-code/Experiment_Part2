@@ -1,4 +1,5 @@
 from otree.api import *
+import math
 c = Currency
 
 
@@ -45,7 +46,7 @@ class PaymentInfo(Page):
         else:
             reward_20Mus_perc = int(participant.vars['reward_20MUs']) / 20
         reward_perc = (reward_p1_perc + reward_meeting_perc + reward_20Mus_perc) / 3
-        participant.payoff = round(7.5 * reward_perc, 2)
+        participant.payoff = math.ceil(8 * reward_perc)
 
         vars_dict = dict(
             reward_p1=int(participant.vars['reward_p1']) / 6,
