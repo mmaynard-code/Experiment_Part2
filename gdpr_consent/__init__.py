@@ -56,6 +56,13 @@ class GDPRConsent(Page):
         return True
 
 class GDPRWaitPage(WaitPage):
+    html_text = "<h4>Please wait for all participants to join the experiment</h3>" \
+                "<p>Please be patient, this can take up to 15 minutes.</p>" \
+                "<p>This waiting time has been factored into the time taken to complete the HIT.</p>" \
+                "<p>If at any point the pages are slow to respond, or you receive an error message, please try refreshing the page.</p>" \
+                "<p>If the pages still do not respond, or you continue to receive an error message please contact one of the researchers named in the HIT description, your progress will be saved even if an error occurs.</p>"
+    title_text = "Waiting for other players..."
+    body_text = html_text
     wait_for_all_groups = True
 
 page_sequence = [GDPRConsent, GDPRWaitPage]
