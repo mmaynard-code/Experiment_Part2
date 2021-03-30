@@ -35,7 +35,7 @@ class Constants(BaseConstants):
         5: {1:[3], 2:[3], 3:[1], 4:[2]}
     }
     match_step3 = {1: [2,3,4], 2: [1,3,4], 3:[1,2,4], 4:[1,2,3]}
-    num_issues = [3,1,4,2,5] 
+    num_issues = [5,4,2,1,3] 
     issues_list = ["The government of your country should subsidize public transport in [0…100] percent.",
     "The warning signs on cigarette boxes should cover [0…100] percent of the box total surface.",
     "The government of your country has to divide an available budget between two options: building new highways or new high-speed railway tracks. [0…100] percent of these resources should be used to build new high-speed railway tracks.",
