@@ -1,0 +1,8 @@
+{% extends 'otree/WaitPage.html' %}
+{% load staticfiles otree_tags %}
+{% block title %}{{ title_text }}{% endblock %}
+{% block content %}
+<p><b>{{ loaded }} / 16</b> players loaded. You can refresh this page to check on this progress.</p>
+<p>As soon as 16 players have loaded the experiment will start automatically.</p>
+    {{ body_text }}
+{% endblock %}
